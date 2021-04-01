@@ -9,17 +9,32 @@
   },
   "dependencies": {
     "expo": "~40.0.0",
-    "expo-status-bar": "~1.0.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-native-maps": "0.27.1",
+    "@turf/helpers": "6.3.0",
+    "@turf/boolean-point-in-polygon": "6.3.0",
+    "@turf/midpoint": "6.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
+    "@expo/vector-icons": "^12.0.0",
+    "@typescript-eslint/eslint-plugin": "4.20.0",
+    "@typescript-eslint/parser": "4.20.0",
+    "babel-preset-expo": "8.3.0",
+    "eslint-config-esnext": "4.1.0",
+    "eslint-config-react": "1.1.7",
+    "eslint-config-react-native": "4.1.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-react": "7.23.1",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "eslint-plugin-react-native": "3.10.0",
+    "expo-status-bar": "~1.0.3",
     "typescript": "~4.0.0"
   },
   "private": true
