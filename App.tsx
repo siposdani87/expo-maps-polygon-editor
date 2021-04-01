@@ -42,7 +42,6 @@ const newPolygon = {
 
 export default function App() {
   const [polygons, setPolygons] = useState([]);
-
   const mapRef = useRef(null);
   const polygonEditorRef = useRef<PolygonEditorRef>(null);
 
@@ -50,16 +49,12 @@ export default function App() {
     setPolygons([polygon1, polygon2]);
   }, []);
 
-  useEffect(() => {
+  function onLayoutReady() {
     mapRef.current?.fitToCoordinates(polygons[0]?.coordinates, {
       edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
       animated: true,
     });
-  }, [mapRef.current]);
-
-  useEffect(() => {
-    console.log(polygons.length);
-  }, [polygons]);
+  }
 
   function clickOnMap({ nativeEvent: { coordinate } }: MapEvent) {
     polygonEditorRef.current?.setCoordinate(coordinate);
@@ -91,8 +86,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style='auto'/>
-      <MapView ref={mapRef} onPress={clickOnMap} style={styles.mapContainer}>
+      <StatusBar style='auto' />
+      <MapView ref={mapRef} onPress={clickOnMap} style={styles.mapContainer} onLayout={onLayoutReady}>
         <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} />
       </MapView>
       <View style={styles.actionsContaiener}>
