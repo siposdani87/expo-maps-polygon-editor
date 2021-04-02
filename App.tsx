@@ -65,7 +65,7 @@ export default function App() {
   }
 
   function onPolygonChange(index: number, polygon: MapPolygonExtendedProps) {
-    console.log('onPolygonChange');
+    console.log('onPolygonChange', index);
     const polygonsClone = [...polygons];
     polygonsClone[index] = polygon;
     setPolygons(polygonsClone);
@@ -78,17 +78,21 @@ export default function App() {
   }
 
   function onPolygonRemove(index: number) {
-    console.log('onPolygonRemove');
+    console.log('onPolygonRemove', index);
     const polygonsClone = [...polygons];
     polygonsClone.splice(index, 1);
     setPolygons(polygonsClone);
+  }
+
+  function onPolygonSelect(index: number) {
+    console.log('onPolygonSelect', index);
   }
 
   return (
     <View style={styles.container}>
       <StatusBar style='auto' />
       <MapView ref={mapRef} onPress={clickOnMap} style={styles.mapContainer} onLayout={onLayoutReady}>
-        <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} />
+        <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} onPolygonSelect={onPolygonSelect} />
       </MapView>
       <View style={styles.actionsContaiener}>
         <Button onPress={createNewPolygon} title='New polygon' />
@@ -111,5 +115,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 50,
     left: 10,
+    backgroundColor: '#fff',
+    padding: 5,
+    borderRadius: 5,
   },
 });
