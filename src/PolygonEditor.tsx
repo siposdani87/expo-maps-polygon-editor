@@ -1,33 +1,39 @@
-import React, { forwardRef, Fragment, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, Fragment, useEffect, useImperativeHandle, useState } from 'react';
 import { LatLng, MapEvent, MapPolygonProps, Marker, Polygon } from 'react-native-maps';
 import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { debounce, getMidpointFromCoordinates, isPointInPolygon } from './utils';
 
 export type PolygonEditorRef = {
-    setCoordinate: (coordinate: LatLng) => void,
+    setCoordinate: (_coordinate: LatLng) => void,
     startPolygon: () => void,
-    closePolygon: () => void,
-    resetSelection: () => void,
+    resetAll: () => void,
 };
 
-export type MapPolygonExtendedProps = MapPolygonProps & {};
+export type MapPolygonExtendedProps = MapPolygonProps & { key: any };
 
-function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: MapPolygonExtendedProps[], onPolygonChange: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate: (_p: MapPolygonExtendedProps) => void, onPolygonRemove: (_i: number) => void, onPolygonSelect?: (_i: number) => void }, ref) {
+function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: MapPolygonExtendedProps[], onPolygonChange: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate: (_p: MapPolygonExtendedProps) => void, onPolygonRemove: (_i: number) => void, onPolygonSelect?: (_i: number) => void, disabled?: boolean }, ref) {
     const [selectedPolygon, setSelectedPolygon] = useState<MapPolygonExtendedProps>(null);
     const [selectedIndex, setSelectedIndex] = useState<number>(null);
     const [selectedPolyline, setSelectedPolyline] = useState<MapPolygonExtendedProps>(null);
     const [allowCreation, setAllowCreation] = useState<boolean>(false);
     const [markerIndex, setMarkerIndex] = useState<number>(null);
     const [newPolygon, setNewPolygon] = useState<MapPolygonExtendedProps>(null);
+    const [disabled, setDisabled] = useState<boolean>(props.disabled ?? false);
 
     useImperativeHandle(ref, init);
+
+    useEffect(() => {
+        setDisabled(props.disabled);
+        if (props.disabled) {
+            resetAll();
+        }
+    }, [props.disabled]);
 
     function init(): PolygonEditorRef {
         return {
             setCoordinate,
             startPolygon,
-            closePolygon,
-            resetSelection,
+            resetAll,
         };
     }
 
@@ -37,7 +43,7 @@ function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: 
         setAllowCreation(true);
     }
 
-    function closePolygon(): void {
+    function resetAll(): void {
         setAllowCreation(false);
         setNewPolygon(null);
         resetSelection();
@@ -51,16 +57,18 @@ function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: 
     }
 
     function setCoordinate(coordinate: LatLng): void {
-        if (isPointInPolygon(coordinate, getSelectedPolygonCoordinates())) {
-            console.log('isPointInPolygon');
-        } else if (selectedPolygon) {
-            if (markerIndex === null) {
-                addCoordinateToSelectedPolygon(coordinate);
-            } else {
-                resetSelection();
+        if (!disabled) {
+            if (isPointInPolygon(coordinate, getSelectedPolygonCoordinates())) {
+                console.log('isPointInPolygon');
+            } else if (selectedPolygon) {
+                if (markerIndex === null) {
+                    addCoordinateToSelectedPolygon(coordinate);
+                } else {
+                    resetSelection();
+                }
+            } else if (allowCreation) {
+                buildNewPolygon(coordinate);
             }
-        } else if (allowCreation) {
-            buildNewPolygon(coordinate);
         }
     }
 
@@ -121,18 +129,20 @@ function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: 
         return selectedPolygon?.coordinates || [];
     }
 
-    function clickOnPolygon(index: number, polygonProps: MapPolygonExtendedProps) {
+    function onPolygonClick(index: number, polygonProps: MapPolygonExtendedProps) {
         return (e: MapEvent) => {
             e.stopPropagation();
-            if (selectedIndex === index) {
-                setSelectedIndex(null);
-                setSelectedPolygon(null);
-                props.onPolygonSelect?.(index);
-            } else {
-                setSelectedIndex(index);
-                setSelectedPolygon(polygonProps);
+            if (!disabled){
+                if (selectedIndex === index) {
+                    setSelectedIndex(null);
+                    setSelectedPolygon(null);
+                    props.onPolygonSelect?.(index);
+                } else {
+                    setSelectedIndex(index);
+                    setSelectedPolygon(polygonProps);
+                }
+                setMarkerIndex(null);
             }
-            setMarkerIndex(null);
         };
     }
 
@@ -181,7 +191,7 @@ function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: 
         return (e: MapEvent) => {
             e.stopPropagation();
             if (markerIndex === index) {
-                onMarkerRemove(index)
+                onMarkerRemove(index);
                 // setMarkerIndex(null);
             } else {
                 setMarkerIndex(index);
@@ -225,7 +235,7 @@ function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: 
     }
 
     function renderSubCircleMarkers(): JSX.Element | void {
-        if (selectedPolygon === null) {
+        if (selectedPolygon === null || disabled) {
             return;
         }
         const coordinates = getSelectedPolygonMiddleCoordinates();
@@ -241,7 +251,7 @@ function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: 
     }
 
     function renderCircleMarkers(): JSX.Element | void {
-        if (selectedPolygon === null) {
+        if (selectedPolygon === null || disabled) {
             return;
         }
         return (
@@ -264,7 +274,7 @@ function PolygonEditor(props: { newPolygon?: MapPolygonExtendedProps, polygons: 
         return (
             <Fragment>
                 {props.polygons.map((polygonProps, index) => (
-                    <Polygon key={index} {...polygonProps} onPress={clickOnPolygon(index, polygonProps)} tappable={true} />
+                    <Polygon key={index} {...polygonProps} onPress={onPolygonClick(index, polygonProps)} tappable={true} />
                 ))}
             </Fragment>
         );
