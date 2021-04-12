@@ -3,18 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import MapView, { MapEvent } from 'react-native-maps';
 import { area1, area2 } from './area';
-import PolygonEditor, { MapPolygonExtendedProps, PolygonEditorRef } from './src/PolygonEditor';
-
-function getRandomNumber(min: number, max: number): number {
-  return (Math.random() * max) + min;
-}
-
-function getRandomColors(): string[] {
-  const red = Math.floor(getRandomNumber(0, 255));
-  const green = Math.floor(getRandomNumber(0, 255));
-  const blue = Math.floor(getRandomNumber(0, 255));
-  return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
-}
+import { PolygonEditor, MapPolygonExtendedProps, PolygonEditorRef, getRandomColors } from './src';
 
 const [strokeColor1, fillColor1] = getRandomColors();
 const polygon1 = {
@@ -34,6 +23,7 @@ const polygon2 = {
 
 const [strokeColor3, fillColor3] = getRandomColors();
 const newPolygon = {
+  key: 'NEW',
   coordinates: [],
   strokeWidth: 2,
   strokeColor: strokeColor3,
