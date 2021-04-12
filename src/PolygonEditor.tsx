@@ -11,6 +11,17 @@ export type PolygonEditorRef = {
 
 export type MapPolygonExtendedProps = MapPolygonProps & { key: any };
 
+function getRandomNumber(min: number, max: number): number {
+    return (Math.random() * max) + min;
+}
+
+export function getRandomColors(): string[] {
+    const red = Math.floor(getRandomNumber(0, 255));
+    const green = Math.floor(getRandomNumber(0, 255));
+    const blue = Math.floor(getRandomNumber(0, 255));
+    return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
+}
+
 function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?: MapPolygonExtendedProps, onPolygonChange?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate?: (_p: MapPolygonExtendedProps) => void, onPolygonRemove?: (_i: number) => void, onPolygonSelect?: (_i: number) => void, disabled?: boolean }, ref) {
     const [selectedPolygon, setSelectedPolygon] = useState<MapPolygonExtendedProps>(null);
     const [selectedIndex, setSelectedIndex] = useState<number>(null);
@@ -132,7 +143,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     function onPolygonClick(index: number, polygonProps: MapPolygonExtendedProps) {
         return (e: MapEvent) => {
             e.stopPropagation();
-            if (!disabled){
+            if (!disabled) {
                 if (selectedIndex === index) {
                     setSelectedIndex(null);
                     setSelectedPolygon(null);
