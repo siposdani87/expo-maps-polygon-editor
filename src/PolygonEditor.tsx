@@ -6,6 +6,8 @@ import { debounce, getMidpointFromCoordinates, isPointInPolygon } from './utils'
 export type PolygonEditorRef = {
     setCoordinate: (_coordinate: LatLng) => void,
     startPolygon: () => void,
+    selectPolygonByKey: (key: any) => void,
+    selectPolygonByIndex: (index: number) => void,
     resetAll: () => void,
 };
 
@@ -26,9 +28,12 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     const [selectedPolygon, setSelectedPolygon] = useState<MapPolygonExtendedProps>(null);
     const [selectedIndex, setSelectedIndex] = useState<number>(null);
     const [selectedPolyline, setSelectedPolyline] = useState<MapPolygonExtendedProps>(null);
-    const [allowCreation, setAllowCreation] = useState<boolean>(false);
+
     const [markerIndex, setMarkerIndex] = useState<number>(null);
+
+    const [allowCreation, setAllowCreation] = useState<boolean>(false);
     const [newPolygon, setNewPolygon] = useState<MapPolygonExtendedProps>(null);
+
     const [disabled, setDisabled] = useState<boolean>(props.disabled ?? false);
 
     useImperativeHandle(ref, init);
@@ -45,6 +50,8 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
             setCoordinate,
             startPolygon,
             resetAll,
+            selectPolygonByKey,
+            selectPolygonByIndex,
         };
     }
 
@@ -65,6 +72,21 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         setSelectedIndex(null);
         setSelectedPolyline(null);
         setMarkerIndex(null);
+    }
+
+    function selectPolygonByKey(key: any): void {
+        const index = props.polygons.findIndex((polygon) => polygon.key === key);
+        if (index !== -1) {
+            selectPolygonByIndex(index);
+        }
+    }
+
+    function selectPolygonByIndex(index: number): void {
+        const polygon = props.polygons[index];
+        if (polygon) {
+            setSelectedIndex(index);
+            setSelectedPolygon(polygon);
+        }
     }
 
     function setCoordinate(coordinate: LatLng): void {
@@ -203,7 +225,6 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
             e.stopPropagation();
             if (markerIndex === index) {
                 onMarkerRemove(index);
-                // setMarkerIndex(null);
             } else {
                 setMarkerIndex(index);
             }

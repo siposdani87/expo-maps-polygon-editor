@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import MapView, { MapEvent } from 'react-native-maps';
-import { area1, area2 } from './area';
+import { area1, area2 } from './areas';
 import { PolygonEditor, MapPolygonExtendedProps, PolygonEditorRef, getRandomColors } from './src';
 
 const [strokeColor1, fillColor1] = getRandomColors();
