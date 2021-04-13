@@ -3,10 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import MapView, { MapEvent } from 'react-native-maps';
 import { area1, area2 } from './areas';
-import { PolygonEditor, MapPolygonExtendedProps, PolygonEditorRef, getRandomColors } from './src';
+import { getRandomColors, MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from './src';
 
 const [strokeColor1, fillColor1] = getRandomColors();
 const polygon1 = {
+  key: 'key_1',
   coordinates: area1,
   strokeWidth: 2,
   strokeColor: strokeColor1,
@@ -15,6 +16,7 @@ const polygon1 = {
 
 const [strokeColor2, fillColor2] = getRandomColors();
 const polygon2 = {
+  key: 'key_2',
   coordinates: area2,
   strokeWidth: 2,
   strokeColor: strokeColor2,
@@ -54,6 +56,18 @@ export default function App() {
     polygonEditorRef.current?.startPolygon();
   }
 
+  function selectPolygonByIndex() {
+    polygonEditorRef.current?.selectPolygonByIndex(1);
+  }
+
+  function selectPolygonByKey() {
+    polygonEditorRef.current?.selectPolygonByKey('key_1');
+  }
+
+  function resetAll() {
+    polygonEditorRef.current?.resetAll();
+  }
+
   function onPolygonChange(index: number, polygon: MapPolygonExtendedProps) {
     console.log('onPolygonChange', index);
     const polygonsClone = [...polygons];
@@ -86,6 +100,9 @@ export default function App() {
       </MapView>
       <View style={styles.actionsContaiener}>
         <Button onPress={createNewPolygon} title='New polygon' />
+        <Button onPress={selectPolygonByIndex} title='Select 2nd' />
+        <Button onPress={selectPolygonByKey} title='Select key_1' />
+        <Button onPress={resetAll} title='Reset' />
       </View>
     </View>
   );
