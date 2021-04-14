@@ -23,13 +23,13 @@ const polygon2 = {
   fillColor: fillColor2,
 };
 
-const [strokeColor3, fillColor3] = getRandomColors();
+const [strokeColor, fillColor] = getRandomColors();
 const newPolygon = {
   key: 'NEW',
   coordinates: [],
   strokeWidth: 2,
-  strokeColor: strokeColor3,
-  fillColor: fillColor3,
+  strokeColor,
+  fillColor,
 };
 
 export default function App() {
@@ -67,6 +67,9 @@ export default function App() {
   }
 
   function createNewPolygon() {
+    const [strokeColor, fillColor] = getRandomColors();
+    newPolygon.strokeColor = strokeColor;
+    newPolygon.fillColor = fillColor;
     polygonEditorRef.current?.startPolygon();
   }
 
@@ -92,7 +95,7 @@ export default function App() {
   function onPolygonCreate(polygon: MapPolygonExtendedProps) {
     console.log('onPolygonCreate');
     const key = `key_${polygons.length + 1}`;
-    const polygonClone = { ...polygon, key  };
+    const polygonClone = { ...polygon, key };
     const polygonsClone = [...polygons, polygonClone];
     setPolygons(polygonsClone);
     polygonEditorRef.current?.selectPolygonByKey(key);
