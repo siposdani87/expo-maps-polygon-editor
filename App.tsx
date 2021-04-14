@@ -38,10 +38,24 @@ export default function App() {
   const polygonEditorRef = useRef<PolygonEditorRef>(null);
 
   useEffect(() => {
-    setPolygons([polygon1, polygon2]);
+    selectPolygonByKey('key_2');
+  }, []);
+
+  useEffect(() => {
+    fitToCoordinates();
+  }, [polygons]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPolygons([polygon1, polygon2]);
+    }, 1000);
   }, []);
 
   function onLayoutReady() {
+    fitToCoordinates();
+  }
+
+  function fitToCoordinates() {
     mapRef.current?.fitToCoordinates(polygons[0]?.coordinates, {
       edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
       animated: true,
@@ -56,12 +70,12 @@ export default function App() {
     polygonEditorRef.current?.startPolygon();
   }
 
-  function selectPolygonByIndex() {
-    polygonEditorRef.current?.selectPolygonByIndex(1);
+  function selectPolygonByIndex(index: number) {
+    polygonEditorRef.current?.selectPolygonByIndex(index);
   }
 
-  function selectPolygonByKey() {
-    polygonEditorRef.current?.selectPolygonByKey('key_1');
+  function selectPolygonByKey(key: any) {
+    polygonEditorRef.current?.selectPolygonByKey(key);
   }
 
   function resetAll() {
@@ -77,8 +91,11 @@ export default function App() {
 
   function onPolygonCreate(polygon: MapPolygonExtendedProps) {
     console.log('onPolygonCreate');
-    const polygonsClone = [...polygons, polygon];
+    const key = `key_${polygons.length + 1}`;
+    const polygonClone = { ...polygon, key  };
+    const polygonsClone = [...polygons, polygonClone];
     setPolygons(polygonsClone);
+    polygonEditorRef.current?.selectPolygonByKey(key);
   }
 
   function onPolygonRemove(index: number) {
@@ -100,8 +117,8 @@ export default function App() {
       </MapView>
       <View style={styles.actionsContaiener}>
         <Button onPress={createNewPolygon} title='New polygon' />
-        <Button onPress={selectPolygonByIndex} title='Select 2nd' />
-        <Button onPress={selectPolygonByKey} title='Select key_1' />
+        <Button onPress={() => selectPolygonByIndex(1)} title='Select 2nd' />
+        <Button onPress={() => selectPolygonByKey('key_1')} title='Select key_1' />
         <Button onPress={resetAll} title='Reset' />
       </View>
     </View>
