@@ -108,8 +108,8 @@ export default function App() {
     setPolygons(polygonsClone);
   }
 
-  function onPolygonSelect(index: number) {
-    console.log('onPolygonSelect', index);
+  function onPolygonSelect(index: number, polygon: MapPolygonExtendedProps) {
+    console.log('onPolygonSelect', index, polygon.key);
   }
 
   return (

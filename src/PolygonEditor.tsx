@@ -24,7 +24,7 @@ export function getRandomColors(): string[] {
     return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
 }
 
-function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?: MapPolygonExtendedProps, onPolygonChange?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate?: (_p: MapPolygonExtendedProps) => void, onPolygonRemove?: (_i: number) => void, onPolygonSelect?: (_i: number) => void, disabled?: boolean }, ref) {
+function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?: MapPolygonExtendedProps, onPolygonChange?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate?: (_p: MapPolygonExtendedProps) => void, onPolygonRemove?: (_i: number) => void, onPolygonSelect?: (_i: number, _p: MapPolygonExtendedProps) => void, disabled?: boolean }, ref) {
     const [selectedIndex, setSelectedIndex] = useState<number>(null);
     const [selectedKey, setSelectedKey] = useState<number>(null);
 
@@ -120,7 +120,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         setNewPolygon(changedPolygon);
         if (changedPolygon.coordinates.length === 3) {
             setAllowCreation(false);
-            // setSelectedKey(changedPolygon.key);
+            setSelectedKey(changedPolygon.key);
             props.onPolygonCreate?.(changedPolygon);
         }
     }
@@ -168,13 +168,13 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         return selectedPolygon?.coordinates || [];
     }
 
-    function onPolygonClick(index: number) {
+    function onPolygonClick(index: number, polygon: MapPolygonExtendedProps) {
         return (e: MapEvent) => {
             e.stopPropagation();
             if (!disabled) {
                 if (selectedIndex === index) {
                     setSelectedIndex(null);
-                    props.onPolygonSelect?.(index);
+                    props.onPolygonSelect?.(index, polygon);
                 } else {
                     setSelectedIndex(index);
                 }
@@ -310,7 +310,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         return (
             <Fragment>
                 {props.polygons.map((polygonProps, index) => (
-                    <Polygon key={index} {...polygonProps} onPress={onPolygonClick(index)} tappable={true} />
+                    <Polygon key={index} {...polygonProps} onPress={onPolygonClick(index, polygonProps)} tappable={true} />
                 ))}
             </Fragment>
         );
