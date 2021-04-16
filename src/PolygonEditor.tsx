@@ -24,7 +24,7 @@ export function getRandomColors(): string[] {
     return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
 }
 
-function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?: MapPolygonExtendedProps, onPolygonChange?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate?: (_p: MapPolygonExtendedProps) => void, onPolygonRemove?: (_i: number) => void, onPolygonSelect?: (_i: number, _p: MapPolygonExtendedProps) => void, disabled?: boolean }, ref) {
+function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?: MapPolygonExtendedProps, onPolygonChange?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate?: (_p: MapPolygonExtendedProps) => void, onPolygonRemove?: (_i: number) => void, onPolygonSelect?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonUnselect?: (_i: number, _p: MapPolygonExtendedProps) => void, disabled?: boolean }, ref) {
     const [polygons, setPolygons] = useState<MapPolygonExtendedProps[]>(props.polygons);
 
     const [selectedKey, setSelectedKey] = useState<number>(null);
@@ -98,7 +98,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     }
 
     function selectPolygonByIndex(index: number): void {
-        const key = getKeyByIndex(index)
+        const key = getKeyByIndex(index);
         if (selectedKey !== key) {
             setSelectedKey(key);
         }
@@ -107,11 +107,12 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     function setCoordinate(coordinate: LatLng): void {
         if (!disabled) {
             if (isPointInPolygon(coordinate, getSelectedPolygonCoordinates())) {
-                console.log('isPointInPolygon');
+                // console.log('isPointInPolygon');
             } else if (selectedPolygon) {
                 if (markerIndex === null) {
                     addCoordinateToSelectedPolygon(coordinate);
                 } else {
+                    unselectPolygon();
                     resetSelection();
                 }
             } else if (allowCreation) {
@@ -136,6 +137,13 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
             ...props.newPolygon,
             coordinates: [],
         };
+    }
+
+    function unselectPolygon() {
+        if (selectedKey && selectedPolygon) {
+            const index = getIndexByKey(selectedKey);
+            props.onPolygonUnselect?.(index, selectedPolygon);
+        }
     }
 
     function getIndexByKey(key: any): number {
@@ -163,6 +171,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     function addCoordinateToSelectedPolygon(coordinate: LatLng, coordIndex?: number): void {
         const changedPolygon = addCoordinateToPolygon(selectedPolygon, coordinate, coordIndex);
         setSelectedPolygon(changedPolygon);
+        setSelectedPolyline(changedPolygon);
         const index = getIndexByKey(changedPolygon.key);
         props.onPolygonChange?.(index, changedPolygon);
     }
@@ -173,15 +182,17 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     }
 
     function removeCoordinateFromSelectedPolygon(coordIndex: number): void {
+        const index = getIndexByKey(selectedPolygon.key);
         const coordinates = [...selectedPolygon.coordinates];
         coordinates.splice(coordIndex, 1);
-        const index = getIndexByKey(selectedPolygon.key);
+        setMarkerIndex(null);
         if (coordinates.length < 3) {
             setSelectedKey(null);
             setSelectedPolyline(null);
             props.onPolygonRemove?.(index);
         } else {
             const changedPolygon = { ...selectedPolygon, coordinates };
+            setSelectedPolygon(changedPolygon);
             setSelectedPolyline(changedPolygon);
             props.onPolygonChange?.(index, changedPolygon);
         }
@@ -216,7 +227,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     function synchronizePolylineToPolygon() {
         setSelectedPolygon(selectedPolyline);
         setSelectedPolyline(null);
-        const index = getIndexByKey(selectedPolyline?.key);
+        const index = getIndexByKey(selectedPolyline.key);
         props.onPolygonChange?.(index, selectedPolyline);
     }
 

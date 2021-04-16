@@ -117,11 +117,15 @@ export default function App() {
     console.log('onPolygonSelect', index, polygon.key);
   }
 
+  function onPolygonUnselect(index: number, polygon: MapPolygonExtendedProps) {
+    console.log('onPolygonUnselect', index, polygon.key);
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style='auto' />
       <MapView ref={mapRef} onPress={clickOnMap} style={styles.mapContainer} onLayout={onLayoutReady}>
-        <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} onPolygonSelect={onPolygonSelect} />
+        <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} onPolygonSelect={onPolygonSelect} onPolygonUnselect={onPolygonUnselect} />
       </MapView>
       <View style={styles.actionsContaiener}>
         <Button onPress={createNewPolygon} title='New polygon' />
