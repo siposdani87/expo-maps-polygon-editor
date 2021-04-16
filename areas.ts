@@ -1,3 +1,18 @@
+export const area0 = [
+    {
+        latitude: 47.64623435880296,
+        longitude: 17.488861083984375,
+    },
+    {
+        latitude: 47.69155620579073,
+        longitude: 17.514411988020868,
+    },
+    {
+        latitude: 47.65998584885824,
+        longitude: 17.54299213146342,
+    },
+];
+
 export const area1 = [
     {
         latitude: 47.6489306447046,
@@ -249,17 +264,3 @@ export const area1 = [
     },
 ];
 
-export const area2 = [
-    {
-        latitude: 47.64623435880296,
-        longitude: 17.488861083984375,
-    },
-    {
-        latitude: 47.69155620579073,
-        longitude: 17.514411988020868,
-    },
-    {
-        latitude: 47.65998584885824,
-        longitude: 17.54299213146342,
-    },
-];

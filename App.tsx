@@ -2,8 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import MapView, { MapEvent } from 'react-native-maps';
-import { area1, area2 } from './areas';
+import { area0, area1 } from './areas';
 import { getRandomColors, MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from './src';
+
+const [strokeColor0, fillColor0] = getRandomColors();
+const polygon0 = {
+  key: 'key_0',
+  coordinates: area0,
+  strokeWidth: 2,
+  strokeColor: strokeColor0,
+  fillColor: fillColor0,
+};
 
 const [strokeColor1, fillColor1] = getRandomColors();
 const polygon1 = {
@@ -12,15 +21,6 @@ const polygon1 = {
   strokeWidth: 2,
   strokeColor: strokeColor1,
   fillColor: fillColor1,
-};
-
-const [strokeColor2, fillColor2] = getRandomColors();
-const polygon2 = {
-  key: 'key_2',
-  coordinates: area2,
-  strokeWidth: 2,
-  strokeColor: strokeColor2,
-  fillColor: fillColor2,
 };
 
 const [strokeColor, fillColor] = getRandomColors();
@@ -38,7 +38,7 @@ export default function App() {
   const polygonEditorRef = useRef<PolygonEditorRef>(null);
 
   useEffect(() => {
-    selectPolygonByKey('key_2');
+    selectPolygonByKey('key_1');
   }, []);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      setPolygons([polygon1, polygon2]);
+      loadPolygons();
     }, 1000);
   }, []);
 
@@ -56,7 +56,8 @@ export default function App() {
   }
 
   function fitToCoordinates() {
-    mapRef.current?.fitToCoordinates(polygons[0]?.coordinates, {
+    const coordinates = polygons.map((p) => p.coordinates).flat();
+    mapRef.current?.fitToCoordinates(coordinates, {
       edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
       animated: true,
     });
@@ -85,6 +86,10 @@ export default function App() {
     polygonEditorRef.current?.resetAll();
   }
 
+  function loadPolygons() {
+    setPolygons([polygon0, polygon1]);
+  }
+
   function onPolygonChange(index: number, polygon: MapPolygonExtendedProps) {
     console.log('onPolygonChange', index);
     const polygonsClone = [...polygons];
@@ -94,11 +99,11 @@ export default function App() {
 
   function onPolygonCreate(polygon: MapPolygonExtendedProps) {
     console.log('onPolygonCreate');
-    const key = `key_${polygons.length + 1}`;
-    const polygonClone = { ...polygon, key };
+    const newKey = `key_${polygons.length + 1}`;
+    const polygonClone = { ...polygon, key: newKey };
     const polygonsClone = [...polygons, polygonClone];
     setPolygons(polygonsClone);
-    polygonEditorRef.current?.selectPolygonByKey(key);
+    polygonEditorRef.current?.selectPolygonByKey(newKey);
   }
 
   function onPolygonRemove(index: number) {
@@ -120,9 +125,10 @@ export default function App() {
       </MapView>
       <View style={styles.actionsContaiener}>
         <Button onPress={createNewPolygon} title='New polygon' />
+        <Button onPress={() => selectPolygonByKey('key_0')} title='Select key_0' />
         <Button onPress={() => selectPolygonByIndex(1)} title='Select 2nd' />
-        <Button onPress={() => selectPolygonByKey('key_1')} title='Select key_1' />
         <Button onPress={resetAll} title='Reset' />
+        <Button onPress={loadPolygons} title='Reload polygons' />
       </View>
     </View>
   );
