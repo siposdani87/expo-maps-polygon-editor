@@ -1,5 +1,5 @@
 import React, { forwardRef, Fragment, useEffect, useImperativeHandle, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { LatLng, MapEvent, MapPolygonProps, Marker, Polygon } from 'react-native-maps';
 import { debounce, getMidpointFromCoordinates, isPointInPolygon } from './utils';
 
@@ -31,7 +31,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     const [selectedPolygon, setSelectedPolygon] = useState<MapPolygonExtendedProps>(null);
     const [selectedPolyline, setSelectedPolyline] = useState<MapPolygonExtendedProps>(null);
 
-    const [markerIndex, setMarkerIndex] = useState<number>(null);
+    const [selectedMarkerIndex, setSelectedMarkerIndex] = useState<number>(null);
 
     const [allowCreation, setAllowCreation] = useState<boolean>(false);
     const [newPolygon, setNewPolygon] = useState<MapPolygonExtendedProps>(null);
@@ -90,11 +90,13 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     function resetSelection(): void {
         setSelectedKey(null);
         setSelectedPolyline(null);
-        setMarkerIndex(null);
+        setSelectedMarkerIndex(null);
     }
 
     function selectPolygonByKey(key: any): void {
-        setSelectedKey(key);
+        if (selectedKey !== key) {
+            setSelectedKey(key);
+        }
     }
 
     function selectPolygonByIndex(index: number): void {
@@ -109,7 +111,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
             if (isPointInPolygon(coordinate, getSelectedPolygonCoordinates())) {
                 // console.log('isPointInPolygon');
             } else if (selectedPolygon) {
-                if (markerIndex === null) {
+                if (selectedMarkerIndex === null) {
                     addCoordinateToSelectedPolygon(coordinate);
                 } else {
                     unselectPolygon();
@@ -185,7 +187,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         const index = getIndexByKey(selectedPolygon.key);
         const coordinates = [...selectedPolygon.coordinates];
         coordinates.splice(coordIndex, 1);
-        setMarkerIndex(null);
+        setSelectedMarkerIndex(null);
         if (coordinates.length < 3) {
             setSelectedKey(null);
             setSelectedPolyline(null);
@@ -212,7 +214,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
                 } else {
                     setSelectedKey(polygon.key);
                 }
-                setMarkerIndex(null);
+                setSelectedMarkerIndex(null);
             }
         };
     }
@@ -262,36 +264,33 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     function onMarkerPress(coordIndex: number) {
         return (e: MapEvent) => {
             e.stopPropagation();
-            if (markerIndex === coordIndex) {
-                onMarkerRemove(coordIndex);
+            if (selectedMarkerIndex === coordIndex) {
+                removeCoordinateFromSelectedPolygon(coordIndex);
             } else {
-                setMarkerIndex(coordIndex);
+                setSelectedMarkerIndex(coordIndex);
             }
         };
     }
 
-    function onMarkerRemove(coordIndex: number) {
-        return (e) => {
-            e.stopPropagation();
-            removeCoordinateFromSelectedPolygon(coordIndex);
-        };
-    }
-
     function isSelectedMarker(coordIndex: number): boolean {
-        return markerIndex === coordIndex;
+        return selectedMarkerIndex === coordIndex;
     }
 
     function getMarkerSize(coordIndex: number): number {
         return isSelectedMarker(coordIndex) ? 15 : 8;
     }
 
-    function renderCircleRemove(coordIndex: number): JSX.Element | void {
+    function renderCircleRemove(): JSX.Element {
         return (
-            <Pressable onPress={onMarkerRemove(coordIndex)}>
                 <View style={styles.removeMarkerContainer}>
                     <Text style={styles.removeMarkerText}>x</Text>
                 </View>
-            </Pressable>
+        );
+    }
+
+    function renderCircle(coordIndex: number): JSX.Element {
+        return (
+            <View style={[styles.circleMarker, { borderColor: selectedPolygon.strokeColor, padding: getMarkerSize(coordIndex) }]}></View>
         );
     }
 
@@ -330,10 +329,10 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
                 {selectedPolygon.coordinates.map((coordinate, coordIndex) => (
                     <Marker key={coordIndex} identifier={coordIndex.toString()} coordinate={coordinate} anchor={{ x: .5, y: .5 }} draggable={!isSelectedMarker(coordIndex)} onDragStart={onMarkerDragStart(coordIndex)} onDrag={onMarkerDrag(coordIndex)} onDragEnd={onMarkerDragEnd(coordIndex)} onPress={onMarkerPress(coordIndex)} tracksViewChanges={true} >
                         {isSelectedMarker(coordIndex) && (
-                            renderCircleRemove(coordIndex)
+                            renderCircleRemove()
                         )}
                         {!isSelectedMarker(coordIndex) && (
-                            <View style={[styles.circleMarker, { borderColor: selectedPolygon.strokeColor, padding: getMarkerSize(coordIndex) }]}></View>
+                            renderCircle(coordIndex)
                         )}
                     </Marker>
                 ))}
