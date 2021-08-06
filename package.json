@@ -1,5 +1,17 @@
 {
+  "name": "@siposdani87/expo-maps-polygon-editor",
+  "version": "1.0.0",
+  "description": "This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps.",
+  "author": "Dániel Sipos",
+  "license": "MIT",
+  "homepage": "https://siposdani87.hu",
+  "private": true,
   "main": "node_modules/expo/AppEntry.js",
+  "keywords": [
+    "expo-maps-polygon-editor",
+    "react-native-maps",
+    "polygon editor"
+  ],
   "scripts": {
     "start": "expo start -c",
     "android": "expo start --android",
@@ -9,35 +21,34 @@
     "tsc-test": "tsc --project . --noEmit"
   },
   "dependencies": {
-    "expo": "^42.0.0",
+    "@turf/boolean-point-in-polygon": "6.5.0",
+    "@turf/helpers": "6.5.0",
+    "@turf/midpoint": "6.5.0",
+    "expo": "^42.0.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
-    "react-native-web": "~0.13.12",
     "react-native-maps": "0.28.0",
-    "@turf/helpers": "6.3.0",
-    "@turf/boolean-point-in-polygon": "6.3.0",
-    "@turf/midpoint": "6.3.0"
+    "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0",
-    "@types/react": "~16.9.35",
-    "@types/react-dom": "~16.9.8",
-    "@types/react-native": "~0.63.2",
+    "@babel/core": "^7.9.6",
     "@expo/vector-icons": "^12.0.0",
-    "@typescript-eslint/eslint-plugin": "4.22.1",
-    "@typescript-eslint/parser": "4.22.1",
-    "babel-preset-expo": "8.3.0",
+    "@types/react": "~16.9.35",
+    "@types/react-dom": "^16.9.14",
+    "@types/react-native": "^0.63.53",
+    "@typescript-eslint/eslint-plugin": "4.29.0",
+    "@typescript-eslint/parser": "4.29.0",
+    "babel-preset-expo": "8.4.1",
     "eslint-config-esnext": "4.1.0",
     "eslint-config-react": "1.1.7",
     "eslint-config-react-native": "4.1.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-react": "7.23.2",
+    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
-    "eslint-plugin-react-native": "3.10.0",
-    "eslint-plugin-unused-imports": "1.1.1",
+    "eslint-plugin-react-native": "3.11.0",
+    "eslint-plugin-unused-imports": "1.1.2",
     "expo-status-bar": "~1.0.4",
     "typescript": "~4.0.0"
-  },
-  "private": true
+  }
 }
