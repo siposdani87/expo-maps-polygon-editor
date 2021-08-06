@@ -5,7 +5,7 @@
   "author": "Dániel Sipos",
   "license": "MIT",
   "homepage": "https://siposdani87.hu",
-  "private": true,
+  "private": false,
   "main": "node_modules/expo/AppEntry.js",
   "keywords": [
     "expo-maps-polygon-editor",
