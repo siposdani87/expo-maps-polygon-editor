@@ -1,9 +1,20 @@
+import { MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from '@siposdani87/expo-maps-polygon-editor';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import MapView, { MapEvent } from 'react-native-maps';
 import { area0, area1 } from './areas';
-import { getRandomColors, MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from './src';
+
+function getRandomNumber(min: number, max: number): number {
+  return (Math.random() * max) + min;
+}
+
+function getRandomColors(): string[] {
+  const red = Math.floor(getRandomNumber(0, 255));
+  const green = Math.floor(getRandomNumber(0, 255));
+  const blue = Math.floor(getRandomNumber(0, 255));
+  return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
+}
 
 const [strokeColor0, fillColor0] = getRandomColors();
 const polygon0 = {
@@ -125,7 +136,7 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style='auto' />
       <MapView ref={mapRef} onPress={clickOnMap} style={styles.mapContainer} onLayout={onLayoutReady}>
-        <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} onPolygonSelect={onPolygonSelect} onPolygonUnselect={onPolygonUnselect} />
+       <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} onPolygonSelect={onPolygonSelect} onPolygonUnselect={onPolygonUnselect} />
       </MapView>
       <View style={styles.actionsContaiener}>
         <Button onPress={createNewPolygon} title='New polygon' />

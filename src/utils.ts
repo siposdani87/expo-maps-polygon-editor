@@ -1,7 +1,17 @@
-import * as turfHelpers from '@turf/helpers';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import * as turfHelpers from '@turf/helpers';
 import midpoint from '@turf/midpoint';
-import { LatLng } from 'react-native-maps';
+import { LatLng, MapPolygonProps } from 'react-native-maps';
+
+export type PolygonEditorRef = {
+    setCoordinate: (_coordinate: LatLng) => void,
+    startPolygon: () => void,
+    selectPolygonByKey: (key: any) => void,
+    selectPolygonByIndex: (index: number) => void,
+    resetAll: () => void,
+};
+
+export type MapPolygonExtendedProps = MapPolygonProps & { key: any };
 
 export function isPointInPolygon(coordinate: LatLng, coordinates: LatLng[]): boolean {
     const point = getPointFromCoordinate(coordinate);
@@ -36,8 +46,8 @@ export function getMidpointFromCoordinates(coordinate1: LatLng, coordinate2: Lat
     };
 }
 
-let timeout = null;
-export function debounce(func, wait) {
+let timeout: any = null;
+export function debounce(func: () => void, wait?: number) {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
         timeout = null;
