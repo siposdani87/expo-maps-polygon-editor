@@ -1,27 +1,29 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "jsx": "react-native",
-    "lib": [
-      "dom",
-      "esnext"
+    "compilerOptions": {
+        "declaration": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "jsx": "react-native",
+        "lib": [
+            "ESNext", "DOM"
+        ],
+        "moduleResolution": "node",
+        "module": "CommonJS",
+        "noEmitOnError": true,
+        "baseUrl": ".",
+        "rootDir": "src",
+        "outDir": "dist",
+        "sourceMap": true,
+        "strict": true,
+        "target": "ESNext",
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": [
+        "**/__tests__/*",
+        "node_modules"
     ],
-    "moduleResolution": "node",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "strict": false,
-    "target": "esnext",
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "isolatedModules": true,
-    "noFallthroughCasesInSwitch": true,
-    "noEmitHelpers": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
-  },
-  "extends": "expo/tsconfig.base"
+    "include": [
+        "src"
+    ],
 }

@@ -1,54 +1,93 @@
 {
   "name": "@siposdani87/expo-maps-polygon-editor",
-  "version": "1.0.0",
-  "description": "This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps.",
-  "author": "Dániel Sipos",
+  "version": "0.1.0",
+  "description": "This rich text editor written in TypeScript and use React Hooks structure. This component use the HTML ContentEditable div feature and React communicate and send data to native JavaScript via WebView.",
+  "author": "Dániel Sipos",
   "license": "MIT",
   "homepage": "https://siposdani87.hu",
   "private": false,
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "keywords": [
+    "react-native",
+    "expo",
     "expo-maps-polygon-editor",
     "react-native-maps",
-    "polygon editor"
+    "polygon",
+    "editor"
   ],
-  "scripts": {
-    "start": "expo start -c",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject",
-    "tsc-test": "tsc --project . --noEmit"
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siposdani87/expo-maps-polygon-editor.git"
   },
-  "dependencies": {
+  "bugs": {
+    "url": "https://github.com/siposdani87/expo-maps-polygon-editor/issues"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build-tsc": "rm -rf dist && tsc -p .",
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "npm run build-tsc",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "peerDependencies": {
+    "react": ">=16.13",
+    "react-native": ">=0.63.3",
+    "react-native-maps": ">=0.28.0",
+    "@turf/boolean-point-in-polygon": ">=6.5.0",
+    "@turf/helpers": ">=6.5.0",
+    "@turf/midpoint": ">=6.5.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "size-limit": [
+    {
+      "path": "dist/expo-maps-polygon-editor.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/expo-maps-polygon-editor.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^5.0.3",
+    "@types/node": "^16.6.2",
+    "@types/react": "^16.0.0",
+    "@types/react-dom": "^16.0.0",
+    "@types/react-native": "^0.63.3",
+    "babel-preset-expo": "8.3.0",
+    "expo": "^42.0.0",
+    "husky": "^7.0.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-native": "^0.63.3",
     "@turf/boolean-point-in-polygon": "6.5.0",
     "@turf/helpers": "6.5.0",
     "@turf/midpoint": "6.5.0",
-    "expo": "^42.0.3",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-maps": "0.28.0",
-    "react-native-web": "~0.13.12"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@expo/vector-icons": "^12.0.0",
-    "@types/react": "~16.9.35",
-    "@types/react-dom": "^16.9.14",
-    "@types/react-native": "^0.63.53",
-    "@typescript-eslint/eslint-plugin": "4.29.0",
-    "@typescript-eslint/parser": "4.29.0",
-    "babel-preset-expo": "8.4.1",
-    "eslint-config-esnext": "4.1.0",
-    "eslint-config-react": "1.1.7",
-    "eslint-config-react-native": "4.1.0",
-    "eslint-plugin-import": "2.23.4",
-    "eslint-plugin-react": "7.24.0",
-    "eslint-plugin-react-hooks": "4.2.0",
-    "eslint-plugin-react-native": "3.11.0",
-    "eslint-plugin-unused-imports": "1.1.2",
-    "expo-status-bar": "~1.0.4",
-    "typescript": "~4.0.0"
+    "size-limit": "^5.0.3",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.3.5"
   }
 }

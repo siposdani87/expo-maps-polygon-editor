@@ -1,42 +1,21 @@
 import React, { forwardRef, Fragment, useEffect, useImperativeHandle, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { LatLng, MapEvent, MapPolygonProps, Marker, Polygon } from 'react-native-maps';
-import { debounce, getMidpointFromCoordinates, isPointInPolygon } from './utils';
+import { LatLng, MapEvent, Marker, Polygon } from 'react-native-maps';
+import { debounce, getMidpointFromCoordinates, isPointInPolygon, MapPolygonExtendedProps, PolygonEditorRef } from './utils';
 
-export type PolygonEditorRef = {
-    setCoordinate: (_coordinate: LatLng) => void,
-    startPolygon: () => void,
-    selectPolygonByKey: (key: any) => void,
-    selectPolygonByIndex: (index: number) => void,
-    resetAll: () => void,
-};
-
-export type MapPolygonExtendedProps = MapPolygonProps & { key: any };
-
-function getRandomNumber(min: number, max: number): number {
-    return (Math.random() * max) + min;
-}
-
-export function getRandomColors(): string[] {
-    const red = Math.floor(getRandomNumber(0, 255));
-    const green = Math.floor(getRandomNumber(0, 255));
-    const blue = Math.floor(getRandomNumber(0, 255));
-    return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
-}
-
-function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?: MapPolygonExtendedProps, onPolygonChange?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonCreate?: (_p: MapPolygonExtendedProps) => void, onPolygonRemove?: (_i: number) => void, onPolygonSelect?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonUnselect?: (_i: number, _p: MapPolygonExtendedProps) => void, disabled?: boolean }, ref) {
+function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?: MapPolygonExtendedProps, onPolygonChange?: (_i: number|null, _p: MapPolygonExtendedProps|null) => void, onPolygonCreate?: (_p: MapPolygonExtendedProps) => void, onPolygonRemove?: (_i: number|null) => void, onPolygonSelect?: (_i: number, _p: MapPolygonExtendedProps) => void, onPolygonUnselect?: (_i: number|null, _p: MapPolygonExtendedProps) => void, disabled?: boolean }, ref: any) {
     const [polygons, setPolygons] = useState<MapPolygonExtendedProps[]>(props.polygons);
 
-    const [selectedKey, setSelectedKey] = useState<number>(null);
-    const [selectedPolygon, setSelectedPolygon] = useState<MapPolygonExtendedProps>(null);
-    const [selectedPolyline, setSelectedPolyline] = useState<MapPolygonExtendedProps>(null);
+    const [selectedKey, setSelectedKey] = useState<number|null>(null);
+    const [selectedPolygon, setSelectedPolygon] = useState<MapPolygonExtendedProps|null>(null);
+    const [selectedPolyline, setSelectedPolyline] = useState<MapPolygonExtendedProps|null>(null);
 
-    const [selectedMarkerIndex, setSelectedMarkerIndex] = useState<number>(null);
+    const [selectedMarkerIndex, setSelectedMarkerIndex] = useState<number|null>(null);
 
     const [allowCreation, setAllowCreation] = useState<boolean>(false);
-    const [newPolygon, setNewPolygon] = useState<MapPolygonExtendedProps>(null);
+    const [newPolygon, setNewPolygon] = useState<MapPolygonExtendedProps|null>(null);
 
-    const [disabled, setDisabled] = useState<boolean>(props.disabled ?? false);
+    const [disabled, setDisabled] = useState<boolean|undefined>(props.disabled ?? false);
 
     useImperativeHandle(ref, init);
 
@@ -138,7 +117,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         return {
             ...props.newPolygon,
             coordinates: [],
-        };
+        } as MapPolygonExtendedProps;
     }
 
     function unselectPolygon() {
@@ -148,14 +127,14 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         }
     }
 
-    function getIndexByKey(key: any): number {
-        const position = polygons.findIndex((polygon) => polygon.key === key);
+    function getIndexByKey(key: any): number|null {
+        const position = polygons.findIndex((polygon: MapPolygonExtendedProps) => polygon.key === key);
         return position === -1 ? null : position;
     }
 
     function getPolygonByKey(key: any): MapPolygonExtendedProps {
         const index = getIndexByKey(key);
-        return polygons[index] || null;
+        return polygons[index ?? -1] || null;
     }
 
     function getKeyByIndex(index: number): any {
@@ -163,11 +142,11 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         return polygon?.key || null;
     }
 
-    function addCoordinateToPolygon(polygon: MapPolygonExtendedProps, coordinate: LatLng, coordIndex?: number): MapPolygonExtendedProps {
-        const i = coordIndex ?? polygon.coordinates.length;
-        const coordinates = [...polygon.coordinates];
+    function addCoordinateToPolygon(polygon: MapPolygonExtendedProps|null, coordinate: LatLng, coordIndex?: number): MapPolygonExtendedProps {
+        const i = coordIndex ?? polygon?.coordinates.length ?? -1;
+        const coordinates = [...polygon?.coordinates ?? []];
         coordinates.splice(i, 0, coordinate);
-        return { ...polygon, coordinates };
+        return { ...polygon, coordinates } as MapPolygonExtendedProps;
     }
 
     function addCoordinateToSelectedPolygon(coordinate: LatLng, coordIndex?: number): void {
@@ -184,8 +163,8 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     }
 
     function removeCoordinateFromSelectedPolygon(coordIndex: number): void {
-        const index = getIndexByKey(selectedPolygon.key);
-        const coordinates = [...selectedPolygon.coordinates];
+        const index = getIndexByKey(selectedPolygon?.key);
+        const coordinates = [...selectedPolygon?.coordinates ?? []];
         coordinates.splice(coordIndex, 1);
         setSelectedMarkerIndex(null);
         if (coordinates.length < 3) {
@@ -193,7 +172,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
             setSelectedPolyline(null);
             props.onPolygonRemove?.(index);
         } else {
-            const changedPolygon = { ...selectedPolygon, coordinates };
+            const changedPolygon = { ...selectedPolygon, coordinates } as MapPolygonExtendedProps;
             setSelectedPolygon(changedPolygon);
             setSelectedPolyline(changedPolygon);
             props.onPolygonChange?.(index, changedPolygon);
@@ -220,16 +199,16 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     }
 
     function changeSelectedPolylineCoordinate(coordIndex: number, coordinate: LatLng) {
-        const coordinatesClone = [...selectedPolyline.coordinates];
+        const coordinatesClone = [...selectedPolyline?.coordinates ?? []];
         coordinatesClone[coordIndex] = coordinate;
-        const changedPolygon = { ...selectedPolyline, coordinates: coordinatesClone };
+        const changedPolygon = { ...selectedPolyline, coordinates: coordinatesClone } as MapPolygonExtendedProps;
         setSelectedPolyline(changedPolygon);
     }
 
     function synchronizePolylineToPolygon() {
         setSelectedPolygon(selectedPolyline);
         setSelectedPolyline(null);
-        const index = getIndexByKey(selectedPolyline.key);
+        const index = getIndexByKey(selectedPolyline?.key);
         props.onPolygonChange?.(index, selectedPolyline);
     }
 
@@ -290,12 +269,12 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
 
     function renderCircle(coordIndex: number): JSX.Element {
         return (
-            <View style={[styles.circleMarker, { borderColor: selectedPolygon.strokeColor, padding: getMarkerSize(coordIndex) }]}></View>
+            <View style={[styles.circleMarker, { borderColor: selectedPolygon?.strokeColor, padding: getMarkerSize(coordIndex) }]}></View>
         );
     }
 
     function getSelectedPolygonMiddleCoordinates(): LatLng[] {
-        const { coordinates } = selectedPolygon;
+        const coordinates = selectedPolygon?.coordinates ?? [];
         const middleCoordinates = [getMidpointFromCoordinates(coordinates[0], coordinates[coordinates.length - 1])];
         for (let i = 1; i < coordinates.length; i++) {
             const coordinate = getMidpointFromCoordinates(coordinates[i - 1], coordinates[i]);
@@ -326,7 +305,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
         }
         return (
             <Fragment>
-                {selectedPolygon.coordinates.map((coordinate, coordIndex) => (
+                {selectedPolygon.coordinates.map((coordinate: any, coordIndex: number) => (
                     <Marker key={coordIndex} identifier={coordIndex.toString()} coordinate={coordinate} anchor={{ x: .5, y: .5 }} draggable={!isSelectedMarker(coordIndex)} onDragStart={onMarkerDragStart(coordIndex)} onDrag={onMarkerDrag(coordIndex)} onDragEnd={onMarkerDragEnd(coordIndex)} onPress={onMarkerPress(coordIndex)} tracksViewChanges={true} >
                         {isSelectedMarker(coordIndex) && (
                             renderCircleRemove()
@@ -343,7 +322,7 @@ function PolygonEditor(props: { polygons: MapPolygonExtendedProps[], newPolygon?
     function renderPolygons(): JSX.Element {
         return (
             <Fragment>
-                {polygons.map((polygonProps, index) => (
+                {polygons.map((polygonProps: any, index: number) => (
                     <Polygon key={index} {...polygonProps} onPress={onPolygonClick(index, polygonProps)} tappable={true} />
                 ))}
             </Fragment>
