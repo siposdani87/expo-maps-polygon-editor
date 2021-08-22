@@ -42,11 +42,11 @@
   },
   "peerDependencies": {
     "react": ">=16.13",
-    "react-native": ">=0.63.3",
-    "react-native-maps": ">=0.28.0",
-    "@turf/boolean-point-in-polygon": ">=6.5.0",
-    "@turf/helpers": ">=6.5.0",
-    "@turf/midpoint": ">=6.5.0"
+    "react-native": "*",
+    "react-native-maps": "*",
+    "@turf/boolean-point-in-polygon": "*",
+    "@turf/helpers": "*",
+    "@turf/midpoint": "*"
   },
   "husky": {
     "hooks": {
