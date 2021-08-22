@@ -1,7 +1,7 @@
 {
-  "name": "@siposdani87/expo-maps-polygon-editor",
+  "name": "@siposdani87/expo-maps-polygon-editor-example",
   "version": "1.0.0",
-  "description": "This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps.",
+  "description": "Example of expo-maps-polygon-editor",
   "author": "Dániel Sipos",
   "license": "MIT",
   "homepage": "https://siposdani87.hu",

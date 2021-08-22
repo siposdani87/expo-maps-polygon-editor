@@ -1,22 +1,11 @@
-import { MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from '@siposdani87/expo-maps-polygon-editor';
+import { getRandomPolygonColors, MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from '@siposdani87/expo-maps-polygon-editor';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import MapView, { MapEvent } from 'react-native-maps';
 import { area0, area1 } from './areas';
 
-function getRandomNumber(min: number, max: number): number {
-  return (Math.random() * max) + min;
-}
-
-function getRandomColors(): string[] {
-  const red = Math.floor(getRandomNumber(0, 255));
-  const green = Math.floor(getRandomNumber(0, 255));
-  const blue = Math.floor(getRandomNumber(0, 255));
-  return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
-}
-
-const [strokeColor0, fillColor0] = getRandomColors();
+const [strokeColor0, fillColor0] = getRandomPolygonColors();
 const polygon0 = {
   key: 'key_0',
   coordinates: area0,
@@ -25,7 +14,7 @@ const polygon0 = {
   fillColor: fillColor0,
 };
 
-const [strokeColor1, fillColor1] = getRandomColors();
+const [strokeColor1, fillColor1] = getRandomPolygonColors();
 const polygon1 = {
   key: 'key_1',
   coordinates: area1,
@@ -34,7 +23,7 @@ const polygon1 = {
   fillColor: fillColor1,
 };
 
-const [strokeColor, fillColor] = getRandomColors();
+const [strokeColor, fillColor] = getRandomPolygonColors();
 const newPolygon = {
   key: 'NEW',
   coordinates: [],
@@ -79,7 +68,7 @@ export default function App() {
   }
 
   function createNewPolygon() {
-    const [strokeColor, fillColor] = getRandomColors();
+    const [strokeColor, fillColor] = getRandomPolygonColors();
     newPolygon.strokeColor = strokeColor;
     newPolygon.fillColor = fillColor;
     polygonEditorRef.current?.startPolygon();
