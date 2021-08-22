@@ -3,6 +3,17 @@ import * as turfHelpers from '@turf/helpers';
 import midpoint from '@turf/midpoint';
 import { LatLng, MapPolygonProps } from 'react-native-maps';
 
+function getRandomNumber(min: number, max: number): number {
+    return (Math.random() * max) + min;
+}
+
+export function getRandomPolygonColors(): string[] {
+    const red = Math.floor(getRandomNumber(0, 255));
+    const green = Math.floor(getRandomNumber(0, 255));
+    const blue = Math.floor(getRandomNumber(0, 255));
+    return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.2)`];
+}
+
 export type PolygonEditorRef = {
     setCoordinate: (_coordinate: LatLng) => void,
     startPolygon: () => void,

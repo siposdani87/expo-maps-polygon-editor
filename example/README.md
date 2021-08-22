@@ -1,1 +1,1 @@
-expo-maps-polygon-editor
+expo-maps-polygon-editor-example
