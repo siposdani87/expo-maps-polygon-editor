@@ -9,8 +9,6 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "keywords": [
-    "react-native",
-    "expo",
     "expo-maps-polygon-editor",
     "react-native-maps",
     "polygon",
@@ -31,34 +29,22 @@
     "node": ">=10"
   },
   "scripts": {
-    "build-tsc": "rm -rf dist && tsc -p .",
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
-    "prepare": "npm run build-tsc",
+    "prebuild": "npm run clean",
+    "build": "tsc -p .",
+    "clean": "rm -rf dist",
+    "lint": "eslint --ext ts src/",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
   "peerDependencies": {
-    "react": ">=16.13",
+    "react": ">=17.0",
     "react-native": "*",
     "react-native-maps": "*",
     "@turf/boolean-point-in-polygon": "*",
     "@turf/helpers": "*",
     "@turf/midpoint": "*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "tabWidth": 4
   },
   "size-limit": [
     {
@@ -71,24 +57,31 @@
     }
   ],
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.3",
+    "@size-limit/preset-small-lib": "^6.0.3",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.6.2",
-    "@types/react": "^16.0.0",
-    "@types/react-dom": "^16.0.0",
-    "@types/react-native": "^0.63.3",
-    "babel-preset-expo": "8.3.0",
-    "expo": "^42.0.0",
-    "husky": "^7.0.1",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-native": "^0.63.3",
+    "@types/react": "~17.0.21",
+    "@types/react-dom": "~17.0.9",
+    "@types/react-native": "~0.64.12",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-esnext": "4.1.0",
+    "eslint-config-react": "1.1.7",
+    "eslint-config-react-native": "4.1.0",
+    "eslint-plugin-import": "2.25.2",
+    "eslint-plugin-react": "7.26.1",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "eslint-plugin-react-native": "3.11.0",
+    "expo": "^43.0.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.2",
     "@turf/boolean-point-in-polygon": "6.5.0",
     "@turf/helpers": "6.5.0",
     "@turf/midpoint": "6.5.0",
     "react-native-maps": "0.28.0",
-    "size-limit": "^5.0.3",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.1",
-    "typescript": "^4.3.5"
+    "size-limit": "^6.0.3",
+    "typescript": "~4.3.5"
   }
 }
