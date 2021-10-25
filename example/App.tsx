@@ -1,4 +1,4 @@
-import { getRandomPolygonColors, MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from '@siposdani87/expo-maps-polygon-editor';
+import { getRandomPolygonColors, MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from '@siposdani87/expo-maps-polygon-editor/src';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';

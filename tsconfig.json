@@ -1,29 +1,34 @@
 {
     "compilerOptions": {
-        "declaration": true,
-        "esModuleInterop": true,
-        "isolatedModules": true,
-        "jsx": "react-native",
-        "lib": [
-            "ESNext", "DOM"
-        ],
-        "moduleResolution": "node",
-        "module": "ESNext",
-        "noEmitOnError": true,
-        "baseUrl": ".",
-        "rootDir": "src",
-        "outDir": "dist",
-        "sourceMap": true,
-        "strict": true,
-        "target": "ESNext",
-        "skipLibCheck": true,
-        "allowSyntheticDefaultImports": true
+      "outDir": "dist",
+      // "baseUrl": ".",
+      "rootDir": "src",
+      "module": "ESNext",
+      "target": "ESNext",
+      "lib": ["DOM", "ESNext"],
+      "moduleResolution": "Node",
+      "jsx": "react-native",
+      "declaration": true,
+      "sourceMap": true,
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "forceConsistentCasingInFileNames": true
     },
-    "exclude": [
-        "**/__tests__/*",
-        "node_modules"
-    ],
     "include": [
-        "src"
+      "src"
     ],
-}
+    "exclude": [
+      "**/__mocks__/*",
+      "**/__tests__/*",
+      "**/templates/*",
+      "node_modules",
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      "dist"
+    ]
+  }
