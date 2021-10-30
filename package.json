@@ -1,7 +1,7 @@
 {
   "name": "@siposdani87/expo-maps-polygon-editor",
   "version": "0.1.0",
-  "description": "This rich text editor written in TypeScript and use React Hooks structure. This component use the HTML ContentEditable div feature and React communicate and send data to native JavaScript via WebView.",
+  "description": "This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps.",
   "author": "Dániel Sipos",
   "license": "MIT",
   "homepage": "https://siposdani87.hu",
