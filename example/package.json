@@ -23,7 +23,7 @@
     "lint": "eslint --ext ts ."
   },
   "dependencies": {
-    "@siposdani87/expo-maps-polygon-editor": "file:../",
+    "@siposdani87/expo-maps-polygon-editor": "../siposdani87-expo-maps-polygon-editor-0.1.0.tgz",
     "@turf/boolean-point-in-polygon": "6.5.0",
     "@turf/helpers": "6.5.0",
     "@turf/midpoint": "6.5.0",
@@ -31,7 +31,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
-    "react-native-maps": "0.28.0",
+    "react-native-maps": "0.29.3",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
@@ -40,8 +40,8 @@
     "@types/react": "~17.0.21",
     "@types/react-dom": "~17.0.9",
     "@types/react-native": "~0.64.12",
-    "@typescript-eslint/eslint-plugin": "4.29.2",
-    "@typescript-eslint/parser": "4.29.2",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "babel-preset-expo": "8.5.1",
     "eslint-config-esnext": "4.1.0",
     "eslint-config-react": "1.1.7",
