@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 | Prop              | Type                                                      | Description |
 | ----------------- | --------------------------------------------------------- | ----------- |
 | polygons *        | MapPolygonExtendedProps[]                                 | |
-| onPolygonChange * | (index: number, polygon: MapPolygonExtendedProps) => void | |
+| onPolygonChange   | (index: number, polygon: MapPolygonExtendedProps) => void | |
 | onPolygonCreate   | (polygon: MapPolygonExtendedProps) => void                | |
 | onPolygonRemove   | (index: number) => void                                   | |
 | onPolygonSelect   | (index: number, polygon: MapPolygonExtendedProps) => void | |
