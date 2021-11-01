@@ -1,6 +1,6 @@
 # @siposdani87/expo-maps-polygon-editor
 
-[![npm package](https://img.shields.io/npm/v/@siposdani87/expo-maps-polygon-editor.svg)](https://https://www.npmjs.com/package/@siposdani87/expo-maps-polygon-editor)
+[![npm package](https://img.shields.io/npm/v/@siposdani87/expo-maps-polygon-editor.svg)](https://www.npmjs.com/package/@siposdani87/expo-maps-polygon-editor)
 
 <a href="https://www.buymeacoffee.com/siposdani87" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="width: 150px !important;"></a>
 
