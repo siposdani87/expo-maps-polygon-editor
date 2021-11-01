@@ -1,11 +1,6 @@
 {
     "files.exclude": {
-        "**/.expo": true,
-	"**/.expo-shared": true,
-	"**/.sonar": true,
-        "**/.vscode": true,
         "**/node_modules": true,
-        "**/.*": false
     },
     "search.exclude": {},
     "typescript.tsdk": "node_modules/typescript/lib"

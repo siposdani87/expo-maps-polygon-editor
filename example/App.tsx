@@ -1,4 +1,9 @@
-import { getRandomPolygonColors, MapPolygonExtendedProps, PolygonEditor, PolygonEditorRef } from '@siposdani87/expo-maps-polygon-editor/src';
+import {
+    getRandomPolygonColors,
+    MapPolygonExtendedProps,
+    PolygonEditor,
+    PolygonEditorRef,
+} from '@siposdani87/expo-maps-polygon-editor';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
@@ -6,154 +11,185 @@ import MapView, { MapEvent } from 'react-native-maps';
 import { area0, area1 } from './areas';
 
 const [strokeColor0, fillColor0] = getRandomPolygonColors();
-const polygon0 = {
-  key: 'key_0',
-  coordinates: area0,
-  strokeWidth: 2,
-  strokeColor: strokeColor0,
-  fillColor: fillColor0,
+const polygon0: MapPolygonExtendedProps = {
+    key: 'key_0',
+    coordinates: area0,
+    strokeWidth: 2,
+    strokeColor: strokeColor0,
+    fillColor: fillColor0,
 };
 
 const [strokeColor1, fillColor1] = getRandomPolygonColors();
-const polygon1 = {
-  key: 'key_1',
-  coordinates: area1,
-  strokeWidth: 2,
-  strokeColor: strokeColor1,
-  fillColor: fillColor1,
+const polygon1: MapPolygonExtendedProps = {
+    key: 'key_1',
+    coordinates: area1,
+    strokeWidth: 2,
+    strokeColor: strokeColor1,
+    fillColor: fillColor1,
 };
 
 const [strokeColor, fillColor] = getRandomPolygonColors();
-const newPolygon = {
-  key: 'NEW',
-  coordinates: [],
-  strokeWidth: 2,
-  strokeColor,
-  fillColor,
+const newPolygon: MapPolygonExtendedProps = {
+    key: 'NEW',
+    coordinates: [],
+    strokeWidth: 2,
+    strokeColor,
+    fillColor,
 };
 
 export default function App() {
-  const [polygons, setPolygons] = useState([]);
-  const mapRef = useRef(null);
-  const polygonEditorRef = useRef<PolygonEditorRef>(null);
+    const [polygons, setPolygons] = useState<MapPolygonExtendedProps[]>([]);
+    const mapRef = useRef<MapView>(null);
+    const polygonEditorRef = useRef<PolygonEditorRef>(null);
 
-  useEffect(() => {
-    selectPolygonByKey('key_1');
-  }, []);
+    const onLayoutReady = (): void => {
+        fitToCoordinates();
+    };
 
-  useEffect(() => {
-    fitToCoordinates();
-  }, [polygons]);
+    const fitToCoordinates = (): void => {
+        const coordinates = polygons
+            .map((polygon) => polygon.coordinates)
+            .flat();
+        mapRef.current?.fitToCoordinates(coordinates, {
+            edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
+            animated: true,
+        });
+    };
 
-  useEffect(() => {
-    setTimeout(() => {
-      loadPolygons();
-    }, 1000);
-  }, []);
+    const clickOnMap = ({ nativeEvent: { coordinate } }: MapEvent): void => {
+        polygonEditorRef.current?.setCoordinate(coordinate);
+    };
 
-  function onLayoutReady() {
-    fitToCoordinates();
-  }
+    const createNewPolygon = (): void => {
+        const [strokeColor, fillColor] = getRandomPolygonColors();
+        newPolygon.strokeColor = strokeColor;
+        newPolygon.fillColor = fillColor;
+        polygonEditorRef.current?.startPolygon();
+    };
 
-  function fitToCoordinates() {
-    const coordinates = polygons.map((p) => p.coordinates).flat();
-    mapRef.current?.fitToCoordinates(coordinates, {
-      edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
-      animated: true,
-    });
-  }
+    const selectPolygonByIndex = (index: number): void => {
+        polygonEditorRef.current?.selectPolygonByIndex(index);
+    };
 
-  function clickOnMap({ nativeEvent: { coordinate } }: MapEvent) {
-    polygonEditorRef.current?.setCoordinate(coordinate);
-  }
+    const selectPolygonByKey = (key: string): void => {
+        polygonEditorRef.current?.selectPolygonByKey(key);
+    };
 
-  function createNewPolygon() {
-    const [strokeColor, fillColor] = getRandomPolygonColors();
-    newPolygon.strokeColor = strokeColor;
-    newPolygon.fillColor = fillColor;
-    polygonEditorRef.current?.startPolygon();
-  }
+    const resetAll = (): void => {
+        polygonEditorRef.current?.resetAll();
+    };
 
-  function selectPolygonByIndex(index: number) {
-    polygonEditorRef.current?.selectPolygonByIndex(index);
-  }
+    const loadPolygons = (): void => {
+        setPolygons([polygon0, polygon1]);
+    };
 
-  function selectPolygonByKey(key: any) {
-    polygonEditorRef.current?.selectPolygonByKey(key);
-  }
+    const onPolygonChange = (
+        index: number,
+        polygon: MapPolygonExtendedProps,
+    ): void => {
+        console.log('onPolygonChange', index);
+        const polygonsClone = [...polygons];
+        polygonsClone[index] = polygon;
+        setPolygons(polygonsClone);
+    };
 
-  function resetAll() {
-    polygonEditorRef.current?.resetAll();
-  }
+    const onPolygonCreate = (polygon: MapPolygonExtendedProps): void => {
+        console.log('onPolygonCreate', newPolygon.key);
+        const newKey = `key_${polygons.length + 1}`;
+        const polygonClone = { ...polygon, key: newKey };
+        const polygonsClone = [...polygons, polygonClone];
+        setPolygons(polygonsClone);
+        polygonEditorRef.current?.selectPolygonByKey(newKey);
+    };
 
-  function loadPolygons() {
-    setPolygons([polygon0, polygon1]);
-  }
+    const onPolygonRemove = (index: number): void => {
+        console.log('onPolygonRemove', index);
+        const polygonsClone = [...polygons];
+        polygonsClone.splice(index, 1);
+        setPolygons(polygonsClone);
+    };
 
-  function onPolygonChange(index: number, polygon: MapPolygonExtendedProps) {
-    console.log('onPolygonChange', index);
-    const polygonsClone = [...polygons];
-    polygonsClone[index] = polygon;
-    setPolygons(polygonsClone);
-  }
+    const onPolygonSelect = (
+        index: number,
+        polygon: MapPolygonExtendedProps,
+    ): void => {
+        console.log('onPolygonSelect', index, polygon.key);
+    };
 
-  function onPolygonCreate(polygon: MapPolygonExtendedProps) {
-    console.log('onPolygonCreate');
-    const newKey = `key_${polygons.length + 1}`;
-    const polygonClone = { ...polygon, key: newKey };
-    const polygonsClone = [...polygons, polygonClone];
-    setPolygons(polygonsClone);
-    polygonEditorRef.current?.selectPolygonByKey(newKey);
-  }
+    const onPolygonUnselect = (
+        index: number,
+        polygon: MapPolygonExtendedProps,
+    ): void => {
+        console.log('onPolygonUnselect', index, polygon.key);
+    };
 
-  function onPolygonRemove(index: number) {
-    console.log('onPolygonRemove', index);
-    const polygonsClone = [...polygons];
-    polygonsClone.splice(index, 1);
-    setPolygons(polygonsClone);
-  }
+    useEffect(() => {
+        selectPolygonByKey('key_1');
+    }, []);
 
-  function onPolygonSelect(index: number, polygon: MapPolygonExtendedProps) {
-    console.log('onPolygonSelect', index, polygon.key);
-  }
+    useEffect(() => {
+        fitToCoordinates();
+    }, [polygons]);
 
-  function onPolygonUnselect(index: number, polygon: MapPolygonExtendedProps) {
-    console.log('onPolygonUnselect', index, polygon.key);
-  }
+    useEffect(() => {
+        setTimeout(() => {
+            loadPolygons();
+        }, 1000);
+    }, []);
 
-  return (
-    <View style={styles.container}>
-      <StatusBar style='auto' />
-      <MapView ref={mapRef} onPress={clickOnMap} style={styles.mapContainer} onLayout={onLayoutReady}>
-       <PolygonEditor ref={polygonEditorRef} newPolygon={newPolygon} polygons={polygons} onPolygonChange={onPolygonChange} onPolygonCreate={onPolygonCreate} onPolygonRemove={onPolygonRemove} onPolygonSelect={onPolygonSelect} onPolygonUnselect={onPolygonUnselect} />
-      </MapView>
-      <View style={styles.actionsContaiener}>
-        <Button onPress={createNewPolygon} title='New polygon' />
-        <Button onPress={() => selectPolygonByKey('key_0')} title='Select key_0' />
-        <Button onPress={() => selectPolygonByIndex(1)} title='Select 2nd' />
-        <Button onPress={resetAll} title='Reset' />
-        <Button onPress={loadPolygons} title='Reload polygons' />
-      </View>
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+            <StatusBar style="auto" />
+            <MapView
+                ref={mapRef}
+                onPress={clickOnMap}
+                style={styles.mapContainer}
+                onLayout={onLayoutReady}
+            >
+                <PolygonEditor
+                    ref={polygonEditorRef}
+                    newPolygon={newPolygon}
+                    polygons={polygons}
+                    onPolygonChange={onPolygonChange}
+                    onPolygonCreate={onPolygonCreate}
+                    onPolygonRemove={onPolygonRemove}
+                    onPolygonSelect={onPolygonSelect}
+                    onPolygonUnselect={onPolygonUnselect}
+                />
+            </MapView>
+            <View style={styles.actionsContaiener}>
+                <Button onPress={createNewPolygon} title="New polygon" />
+                <Button
+                    onPress={() => selectPolygonByKey('key_0')}
+                    title="Select key_0"
+                />
+                <Button
+                    onPress={() => selectPolygonByIndex(1)}
+                    title="Select 2nd"
+                />
+                <Button onPress={resetAll} title="Reset" />
+                <Button onPress={loadPolygons} title="Reload polygons" />
+            </View>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mapContainer: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  actionsContaiener: {
-    position: 'absolute',
-    bottom: 50,
-    left: 10,
-    backgroundColor: '#fff',
-    padding: 5,
-    borderRadius: 5,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    mapContainer: {
+        ...StyleSheet.absoluteFillObject,
+    },
+    actionsContaiener: {
+        position: 'absolute',
+        bottom: 50,
+        left: 10,
+        backgroundColor: '#fff',
+        padding: 5,
+        borderRadius: 5,
+    },
 });
