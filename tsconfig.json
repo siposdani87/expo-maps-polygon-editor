@@ -19,7 +19,8 @@
       "noUnusedParameters": true
     },
     "include": [
-      "src"
+      "src",
+      ".eslintrc.json"
     ],
     "exclude": [
       "**/__mocks__/*",

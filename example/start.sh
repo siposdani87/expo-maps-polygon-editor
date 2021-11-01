@@ -1,11 +1,10 @@
 #!/bin/bash
 
-sudo npm i -g eslint expo-cli expo-optimize
-rm -rf package-lock.json
-yarn remove @siposdani87/expo-maps-polygon-editor
-yarn add file:../
-yarn install
-yarn outdated
-eslint . --fix
+# sudo npm i -g expo-cli expo-optimize
+npm i
+rm -rf node_modules/@siposdani87
+mkdir -p node_modules/@siposdani87/expo-maps-polygon-editor
+cp -R ../dist node_modules/@siposdani87/expo-maps-polygon-editor
+cp -R ../package.json node_modules/@siposdani87/expo-maps-polygon-editor
 npm run tsc-test 
 expo start -c

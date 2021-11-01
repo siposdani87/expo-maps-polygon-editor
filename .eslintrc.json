@@ -10,16 +10,14 @@
         }
     },
     "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended",
-        "react-native"
+        "@react-native-community"
     ],
     "plugins": [
-        "@typescript-eslint",
-        "react-hooks"
+        "@typescript-eslint"
     ],
-    "rules": {
-        "no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }]
+    "rules": {},
+    "globals": {
+        "JSX": "readonly"
     },
     "settings": {
         "react": {
