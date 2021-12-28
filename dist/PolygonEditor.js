@@ -327,7 +327,7 @@ function PolygonEditor(props, ref) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getPolygonByKey, polygons, selectedKey]);
     useEffect(() => {
-        const key = selectedPolygon?.key;
+        const key = selectedPolygon?.key ?? null;
         if (selectedKey !== key) {
             setSelectedKey(key);
         }
