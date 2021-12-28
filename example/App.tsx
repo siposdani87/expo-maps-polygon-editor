@@ -80,6 +80,7 @@ export default function App() {
     };
 
     const loadPolygons = (): void => {
+        resetAll();
         setPolygons([polygon0, polygon1]);
     };
 

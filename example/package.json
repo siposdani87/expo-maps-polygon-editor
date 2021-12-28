@@ -27,11 +27,11 @@
     "@turf/boolean-point-in-polygon": "6.5.0",
     "@turf/helpers": "6.5.0",
     "@turf/midpoint": "6.5.0",
-    "expo": "^43.0.0",
+    "expo": "^44.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-native": "0.64.2",
-    "react-native-maps": "0.29.3"
+    "react-native": "0.64.3",
+    "react-native-maps": "0.29.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -43,11 +43,11 @@
     "@typescript-eslint/parser": "^5.2.0",
     "@react-native-community/eslint-config": "^3.0.1",
     "@types/babel__core": "^7.1.16",
-    "babel-preset-expo": "8.5.1",
+    "babel-preset-expo": "9.0.1",
     "eslint": "^7.32.0",
     "prettier": "^2.4.1",
-    "jest-expo": "~43.0.0",
-    "expo-status-bar": "~1.1.0",
+    "jest-expo": "^44.0.0",
+    "expo-status-bar": "~1.2.0",
     "typescript": "~4.3.5"
   }
 }
