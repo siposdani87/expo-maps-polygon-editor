@@ -3,29 +3,32 @@ import * as turfHelpers from '@turf/helpers';
 import midpoint from '@turf/midpoint';
 import { LatLng, MapPolygonProps } from 'react-native-maps';
 
-function getRandomNumber(min: number, max: number): number {
+const getRandomNumber = (min: number, max: number): number => {
     return Math.random() * max + min;
-}
+};
 
-export function getRandomPolygonColors(): string[] {
+export type PolygonKey = string | number | null;
+
+export function getRandomPolygonColors(): [string, string] {
     const red = Math.floor(getRandomNumber(0, 255));
     const green = Math.floor(getRandomNumber(0, 255));
     const blue = Math.floor(getRandomNumber(0, 255));
-    return [
-        `rgb(${red}, ${green}, ${blue})`,
-        `rgba(${red}, ${green}, ${blue}, 0.2)`,
-    ];
+
+    const strokeColor = `rgb(${red}, ${green}, ${blue})`;
+    const fillColor = `rgba(${red}, ${green}, ${blue}, 0.2)`;
+
+    return [strokeColor, fillColor];
 }
 
 export type PolygonEditorRef = {
     setCoordinate: (_coordinate: LatLng) => void;
     startPolygon: () => void;
-    selectPolygonByKey: (_key: any) => void;
+    selectPolygonByKey: (_key: PolygonKey) => void;
     selectPolygonByIndex: (_index: number) => void;
     resetAll: () => void;
 };
 
-export type MapPolygonExtendedProps = MapPolygonProps & { key: any };
+export type MapPolygonExtendedProps = MapPolygonProps & { key: PolygonKey };
 
 export function isPointInPolygon(
     coordinate: LatLng,
@@ -79,7 +82,7 @@ export function getMidpointFromCoordinates(
 }
 
 let timeout: any = null;
-export function debounce(func: () => void, wait?: number) {
+export function debounce(func: () => void, wait?: number): void {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
         timeout = null;

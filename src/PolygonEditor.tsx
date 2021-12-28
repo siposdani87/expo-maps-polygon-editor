@@ -13,6 +13,7 @@ import {
     isPointInPolygon,
     MapPolygonExtendedProps,
     PolygonEditorRef,
+    PolygonKey,
 } from './utils';
 
 function PolygonEditor(
@@ -41,7 +42,7 @@ function PolygonEditor(
         props.polygons,
     );
 
-    const [selectedKey, setSelectedKey] = useState<string | null>(null);
+    const [selectedKey, setSelectedKey] = useState<PolygonKey>(null);
     const [selectedPolygon, setSelectedPolygon] =
         useState<MapPolygonExtendedProps | null>(null);
     const [selectedPolyline, setSelectedPolyline] =
@@ -83,7 +84,7 @@ function PolygonEditor(
         resetSelection();
     }, [resetSelection]);
 
-    const selectPolygonByKey = (key: string): void => {
+    const selectPolygonByKey = (key: PolygonKey): void => {
         if (selectedKey !== key) {
             setSelectedKey(key);
         }
@@ -144,7 +145,7 @@ function PolygonEditor(
     };
 
     const getIndexByKey = useCallback(
-        (key: string): number | null => {
+        (key: PolygonKey): number | null => {
             const index = polygons.findIndex((polygon) => polygon.key === key);
             return index === -1 ? null : index;
         },
@@ -152,7 +153,7 @@ function PolygonEditor(
     );
 
     const getPolygonByKey = useCallback(
-        (key: string): MapPolygonExtendedProps | null => {
+        (key: PolygonKey): MapPolygonExtendedProps | null => {
             const index = getIndexByKey(key);
             if (index != null) {
                 return polygons[index];
@@ -162,7 +163,7 @@ function PolygonEditor(
         [getIndexByKey, polygons],
     );
 
-    const getKeyByIndex = (index: number): string | null => {
+    const getKeyByIndex = (index: number): PolygonKey => {
         const polygon = polygons[index];
         return polygon?.key;
     };
@@ -487,7 +488,7 @@ function PolygonEditor(
     }, [getPolygonByKey, polygons, selectedKey]);
 
     useEffect(() => {
-        const key = selectedPolygon?.key;
+        const key = selectedPolygon?.key ?? null;
         if (selectedKey !== key) {
             setSelectedKey(key);
         }
