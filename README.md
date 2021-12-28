@@ -24,10 +24,10 @@ expo install @siposdani87/expo-maps-polygon-editor
 Check example directory for more samples and options.
 
 ```js
-import { PolygonEditor, getRandomPolygonColors, PolygonEditorRef } from '@siposdani87/expo-maps-polygon-editor';
+import { PolygonEditor, getRandomPolygonColors, PolygonEditorRef, MapPolygonExtendedProps } from '@siposdani87/expo-maps-polygon-editor';
 
 const [strokeColor, fillColor] = getRandomPolygonColors();
-const polygons = [{
+const polygons: MapPolygonExtendedProps[] = [{
     key: 'key_0',
     coordinates: [
         {
