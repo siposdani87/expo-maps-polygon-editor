@@ -4,7 +4,7 @@
   "description": "This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps.",
   "author": "Dániel Sipos",
   "license": "MIT",
-  "homepage": "https://siposdani87.hu",
+  "homepage": "https://siposdani87.com",
   "private": false,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
