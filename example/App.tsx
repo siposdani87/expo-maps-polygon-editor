@@ -6,7 +6,7 @@ import {
 } from '@siposdani87/expo-maps-polygon-editor';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { Alert, Button, StyleSheet, View } from 'react-native';
 import MapView, { MapEvent } from 'react-native-maps';
 import { area0, area1 } from './areas';
 
@@ -58,6 +58,21 @@ export default function App() {
 
     const clickOnMap = ({ nativeEvent: { coordinate } }: MapEvent): void => {
         polygonEditorRef.current?.setCoordinate(coordinate);
+    };
+
+    const showNewPolygonInfo = (): void => {
+        Alert.alert(
+            'New polygon',
+            'Click on the map 3 times to create starter polygon!',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                { text: 'OK', onPress: createNewPolygon },
+            ],
+        );
     };
 
     const createNewPolygon = (): void => {
@@ -159,7 +174,7 @@ export default function App() {
                 />
             </MapView>
             <View style={styles.actionsContaiener}>
-                <Button onPress={createNewPolygon} title="New polygon" />
+                <Button onPress={showNewPolygonInfo} title="New polygon" />
                 <Button
                     onPress={() => selectPolygonByKey('key_0')}
                     title="Select key_0"

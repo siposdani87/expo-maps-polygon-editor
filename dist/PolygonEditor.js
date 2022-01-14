@@ -1,16 +1,21 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState, } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Marker, Polygon } from 'react-native-maps';
-import { debounce, getMidpointFromCoordinates, isPointInPolygon, } from './utils';
+import { useNewPolygon } from './useNewPolygon';
+import { usePolygonFinder } from './usePolygonFinder';
+import { debounce, getMiddleCoordinates, isPointInPolygon } from './utils';
 function PolygonEditor(props, ref) {
     const [polygons, setPolygons] = useState(props.polygons);
     const [selectedKey, setSelectedKey] = useState(null);
     const [selectedPolygon, setSelectedPolygon] = useState(null);
     const [selectedPolyline, setSelectedPolyline] = useState(null);
     const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(null);
-    const [newPolygon, setNewPolygon] = useState(null);
-    const [allowCreation, setAllowCreation] = useState(false);
     const [disabled, setDisabled] = useState(props.disabled ?? false);
+    const [getKeyByIndex, getIndexByKey, getPolygonByKey] = usePolygonFinder(polygons);
+    const [startNewPolygon, resetNewPolygon, buildNewPolygon] = useNewPolygon(props.newPolygon, (polygon) => {
+        setSelectedKey(polygon.key);
+        props.onPolygonCreate?.(polygon);
+    });
     const init = () => {
         return {
             setCoordinate,
@@ -20,21 +25,19 @@ function PolygonEditor(props, ref) {
             selectPolygonByIndex,
         };
     };
-    const startPolygon = () => {
-        resetSelection();
-        setNewPolygon(null);
-        setAllowCreation(true);
-    };
     const resetSelection = useCallback(() => {
         setSelectedKey(null);
         setSelectedPolyline(null);
         setSelectedMarkerIndex(null);
     }, []);
-    const resetAll = useCallback(() => {
-        setAllowCreation(false);
-        setNewPolygon(null);
+    const startPolygon = useCallback(() => {
         resetSelection();
-    }, [resetSelection]);
+        startNewPolygon();
+    }, [startNewPolygon, resetSelection]);
+    const resetAll = useCallback(() => {
+        resetNewPolygon();
+        resetSelection();
+    }, [resetNewPolygon, resetSelection]);
     const selectPolygonByKey = (key) => {
         if (selectedKey !== key) {
             setSelectedKey(key);
@@ -66,25 +69,6 @@ function PolygonEditor(props, ref) {
             buildNewPolygon(coordinate);
         }
     };
-    const buildNewPolygon = (coordinate) => {
-        if (!allowCreation || !props.newPolygon) {
-            return;
-        }
-        const polygon = newPolygon ?? {
-            ...props.newPolygon,
-            coordinates: [],
-        };
-        const changedPolygon = {
-            ...polygon,
-            coordinates: [...polygon.coordinates, coordinate],
-        };
-        setNewPolygon(changedPolygon);
-        if (changedPolygon.coordinates.length === 3) {
-            setAllowCreation(false);
-            setSelectedKey(changedPolygon.key);
-            props.onPolygonCreate?.(changedPolygon);
-        }
-    };
     const unselectPolygon = () => {
         if (selectedKey && selectedPolygon) {
             const index = getIndexByKey(selectedKey);
@@ -92,21 +76,6 @@ function PolygonEditor(props, ref) {
                 props.onPolygonUnselect?.(index, selectedPolygon);
             }
         }
-    };
-    const getIndexByKey = useCallback((key) => {
-        const index = polygons.findIndex((polygon) => polygon.key === key);
-        return index === -1 ? null : index;
-    }, [polygons]);
-    const getPolygonByKey = useCallback((key) => {
-        const index = getIndexByKey(key);
-        if (index != null) {
-            return polygons[index];
-        }
-        return null;
-    }, [getIndexByKey, polygons]);
-    const getKeyByIndex = (index) => {
-        const polygon = polygons[index];
-        return polygon?.key;
     };
     const addCoordinateToPolygon = (polygon, coordinate, coordIndex) => {
         const i = coordIndex ?? polygon.coordinates.length ?? -1;
@@ -257,24 +226,14 @@ function PolygonEditor(props, ref) {
                 },
             ]}/>);
     };
-    const getSelectedPolygonMiddleCoordinates = () => {
-        const coordinates = getSelectedPolygonCoordinates();
-        const middleCoordinates = [
-            getMidpointFromCoordinates(coordinates[0], coordinates[coordinates.length - 1]),
-        ];
-        for (let i = 1; i < coordinates.length; i++) {
-            const coordinate = getMidpointFromCoordinates(coordinates[i - 1], coordinates[i]);
-            middleCoordinates.push(coordinate);
-        }
-        return middleCoordinates;
-    };
     const renderSubCircleMarkers = () => {
         if (selectedPolygon === null || disabled) {
             return;
         }
-        const coordinates = getSelectedPolygonMiddleCoordinates();
+        const coordinates = getSelectedPolygonCoordinates();
+        const middleCoordinates = getMiddleCoordinates(coordinates);
         return (<>
-                {coordinates.map((coordinate, coordIndex) => (<Marker key={coordIndex} identifier={coordIndex.toString()} coordinate={coordinate} anchor={{ x: 0.5, y: 0.5 }} draggable={true} onDragStart={onSubMarkerDragStart(coordIndex)} onDrag={onMarkerDrag(coordIndex)} onDragEnd={onMarkerDragEnd(coordIndex)} tracksViewChanges={true}>
+                {middleCoordinates.map((coordinate, coordIndex) => (<Marker key={coordIndex} identifier={coordIndex.toString()} coordinate={coordinate} anchor={{ x: 0.5, y: 0.5 }} draggable={true} onDragStart={onSubMarkerDragStart(coordIndex)} onDrag={onMarkerDrag(coordIndex)} onDragEnd={onMarkerDragEnd(coordIndex)} tracksViewChanges={true}>
                         <View style={[
                     styles.subCircleMarker,
                     {
