@@ -15,6 +15,6 @@ export const usePolygonFinder = (polygons) => {
         }
         return null;
     }, [getIndexByKey, polygons]);
-    return [getKeyByIndex, getIndexByKey, getPolygonByKey];
+    return { getKeyByIndex, getIndexByKey, getPolygonByKey };
 };
 //# sourceMappingURL=usePolygonFinder.js.map

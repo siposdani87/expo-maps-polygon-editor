@@ -3,21 +3,6 @@ import * as turfHelpers from '@turf/helpers';
 import midpoint from '@turf/midpoint';
 import { LatLng } from 'react-native-maps';
 
-const getRandomNumber = (min: number, max: number): number => {
-    return Math.random() * max + min;
-};
-
-export const getRandomPolygonColors = (): [string, string] => {
-    const red = Math.floor(getRandomNumber(0, 255));
-    const green = Math.floor(getRandomNumber(0, 255));
-    const blue = Math.floor(getRandomNumber(0, 255));
-
-    const strokeColor = `rgb(${red}, ${green}, ${blue})`;
-    const fillColor = `rgba(${red}, ${green}, ${blue}, 0.2)`;
-
-    return [strokeColor, fillColor];
-};
-
 export const isPointInPolygon = (
     coordinate: LatLng,
     coordinates: LatLng[],
@@ -67,30 +52,4 @@ export const getMidpointFromCoordinates = (
         latitude: coordinates[0],
         longitude: coordinates[1],
     };
-};
-
-export const getMiddleCoordinates = (coordinates: LatLng[]): LatLng[] => {
-    const middleCoordinates = [
-        getMidpointFromCoordinates(
-            coordinates[0],
-            coordinates[coordinates.length - 1],
-        ),
-    ];
-    for (let i = 1; i < coordinates.length; i++) {
-        const coordinate = getMidpointFromCoordinates(
-            coordinates[i - 1],
-            coordinates[i],
-        );
-        middleCoordinates.push(coordinate);
-    }
-    return middleCoordinates;
-};
-
-let timeout: any = null;
-export const debounce = (func: () => void, wait?: number): void => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        timeout = null;
-        func();
-    }, wait);
 };

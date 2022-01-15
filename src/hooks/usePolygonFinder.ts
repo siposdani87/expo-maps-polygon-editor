@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
-import { MapPolygonExtendedProps, PolygonKey } from './types';
+import { MapPolygonExtendedProps, PolygonKey } from '../lib/types';
 
 export const usePolygonFinder = (
     polygons: MapPolygonExtendedProps[],
-): [
-    (index: number) => PolygonKey,
-    (key: PolygonKey) => number | null,
-    (key: PolygonKey) => MapPolygonExtendedProps | null,
-] => {
+): {
+    getKeyByIndex: (index: number) => PolygonKey;
+    getIndexByKey: (key: PolygonKey) => number | null;
+    getPolygonByKey: (key: PolygonKey) => MapPolygonExtendedProps | null;
+} => {
     const getKeyByIndex = useCallback(
         (index: number): PolygonKey => {
             const polygon = polygons[index];
@@ -35,5 +35,5 @@ export const usePolygonFinder = (
         [getIndexByKey, polygons],
     );
 
-    return [getKeyByIndex, getIndexByKey, getPolygonByKey];
+    return { getKeyByIndex, getIndexByKey, getPolygonByKey };
 };

@@ -1,17 +1,6 @@
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import * as turfHelpers from '@turf/helpers';
 import midpoint from '@turf/midpoint';
-const getRandomNumber = (min, max) => {
-    return Math.random() * max + min;
-};
-export const getRandomPolygonColors = () => {
-    const red = Math.floor(getRandomNumber(0, 255));
-    const green = Math.floor(getRandomNumber(0, 255));
-    const blue = Math.floor(getRandomNumber(0, 255));
-    const strokeColor = `rgb(${red}, ${green}, ${blue})`;
-    const fillColor = `rgba(${red}, ${green}, ${blue}, 0.2)`;
-    return [strokeColor, fillColor];
-};
 export const isPointInPolygon = (coordinate, coordinates) => {
     const point = getPointFromCoordinate(coordinate);
     const polygon = getPolygonFromCoordinates(coordinates);
@@ -47,22 +36,4 @@ export const getMidpointFromCoordinates = (coordinate1, coordinate2) => {
         longitude: coordinates[1],
     };
 };
-export const getMiddleCoordinates = (coordinates) => {
-    const middleCoordinates = [
-        getMidpointFromCoordinates(coordinates[0], coordinates[coordinates.length - 1]),
-    ];
-    for (let i = 1; i < coordinates.length; i++) {
-        const coordinate = getMidpointFromCoordinates(coordinates[i - 1], coordinates[i]);
-        middleCoordinates.push(coordinate);
-    }
-    return middleCoordinates;
-};
-let timeout = null;
-export const debounce = (func, wait) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        timeout = null;
-        func();
-    }, wait);
-};
-//# sourceMappingURL=utils.js.map
+//# sourceMappingURL=geospatials.js.map

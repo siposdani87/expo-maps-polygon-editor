@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LatLng } from 'react-native-maps';
-import { MapPolygonExtendedProps } from './types';
+import { MapPolygonExtendedProps } from '../lib/types';
 
 export const useNewPolygon = (
     newPolygon?: MapPolygonExtendedProps,

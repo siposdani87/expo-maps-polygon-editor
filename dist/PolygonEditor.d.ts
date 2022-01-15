@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPolygonExtendedProps } from './types';
+import { MapPolygonExtendedProps } from './lib/types';
 declare const _default: React.ForwardRefExoticComponent<{
     polygons: MapPolygonExtendedProps[];
     newPolygon?: MapPolygonExtendedProps | undefined;
