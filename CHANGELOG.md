@@ -1,6 +1,11 @@
-## 0.3.0 - TBD
+## 0.4.0 - TBD
 
-* 
+*
+
+## 0.3.0 - 2022-01-16
+
+* Separate functions and components
+* Improve structure of editor
 
 ## 0.2.0 - 2021-12-28
 
