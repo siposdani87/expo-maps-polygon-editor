@@ -4,8 +4,8 @@ import { MapPolygonExtendedProps } from '../lib/types';
 
 export const useNewPolygon = (
     newPolygon?: MapPolygonExtendedProps,
-    onPolygonCreate?: (_polygon: MapPolygonExtendedProps) => void,
-): [() => void, () => void, (_coordinate: LatLng) => void] => {
+    onPolygonCreate?: (polygon: MapPolygonExtendedProps) => void,
+): [() => void, () => void, (coordinate: LatLng) => void] => {
     const [polygon, setPolygon] = useState<MapPolygonExtendedProps | null>(
         null,
     );

@@ -28,12 +28,12 @@ function PolygonEditor(
     props: {
         polygons: MapPolygonExtendedProps[];
         newPolygon?: MapPolygonExtendedProps;
-        onPolygonCreate?: (_polygon: MapPolygonExtendedProps) => void;
+        onPolygonCreate?: (polygon: MapPolygonExtendedProps) => void;
         onPolygonChange?: (
             _index: number,
             _polygon: MapPolygonExtendedProps,
         ) => void;
-        onPolygonRemove?: (_index: number) => void;
+        onPolygonRemove?: (index: number) => void;
         onPolygonSelect?: (
             _index: number,
             _polygon: MapPolygonExtendedProps,
@@ -306,17 +306,17 @@ function PolygonEditor(
                 <>
                     <SubCircleMarkers
                         polygon={selectedPolygon}
-                        onSubMarkerDragStart={onSubMarkerDragStart}
-                        onMarkerDrag={onMarkerDrag}
-                        onMarkerDragEnd={onMarkerDragEnd}
+                        onDragStart={onSubMarkerDragStart}
+                        onDrag={onMarkerDrag}
+                        onDragEnd={onMarkerDragEnd}
                     />
                     <CircleMarkers
                         selectedMarkerIndex={selectedMarkerIndex}
                         polygon={selectedPolygon}
-                        onMarkerDragStart={onMarkerDragStart}
-                        onMarkerDrag={onMarkerDrag}
-                        onMarkerDragEnd={onMarkerDragEnd}
-                        onMarkerPress={onMarkerPress}
+                        onDragStart={onMarkerDragStart}
+                        onDrag={onMarkerDrag}
+                        onDragEnd={onMarkerDragEnd}
+                        onPress={onMarkerPress}
                     />
                 </>
             )}

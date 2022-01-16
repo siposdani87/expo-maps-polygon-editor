@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 export const useSelectedMarker = (): {
     selectedMarkerIndex: number | null;
     setSelectedMarkerIndex: Dispatch<SetStateAction<number | null>>;
-    isSelectedMarker: (_coordIndex: number | null) => boolean;
+    isSelectedMarker: (coordIndex: number | null) => boolean;
 } => {
     const [selectedMarkerIndex, setSelectedMarkerIndex] = useState<
         number | null

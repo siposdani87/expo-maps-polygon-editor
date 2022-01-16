@@ -6,9 +6,9 @@ import { getMiddleCoordinates } from '../lib/helpers';
 
 export default function SubCircleMarkers(props: {
     polygon: MapPolygonExtendedProps;
-    onSubMarkerDragStart: (_index: number) => (e: MapEvent) => void;
-    onMarkerDrag: (_index: number) => (e: MapEvent) => void;
-    onMarkerDragEnd: (_index: number) => (e: MapEvent) => void;
+    onDragStart: (index: number) => (e: MapEvent) => void;
+    onDrag: (index: number) => (e: MapEvent) => void;
+    onDragEnd: (index: number) => (e: MapEvent) => void;
 }): JSX.Element {
     const middleCoordinates = getMiddleCoordinates(props.polygon.coordinates);
     return (
@@ -20,9 +20,9 @@ export default function SubCircleMarkers(props: {
                     coordinate={coordinate}
                     anchor={{ x: 0.5, y: 0.5 }}
                     draggable={true}
-                    onDragStart={props.onSubMarkerDragStart(coordIndex)}
-                    onDrag={props.onMarkerDrag(coordIndex)}
-                    onDragEnd={props.onMarkerDragEnd(coordIndex)}
+                    onDragStart={props.onDragStart(coordIndex)}
+                    onDrag={props.onDrag(coordIndex)}
+                    onDragEnd={props.onDragEnd(coordIndex)}
                     tracksViewChanges={true}
                 >
                     <View
