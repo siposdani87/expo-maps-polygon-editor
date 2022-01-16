@@ -3,9 +3,9 @@ import { MapPolygonExtendedProps } from './lib/types';
 declare const _default: React.ForwardRefExoticComponent<{
     polygons: MapPolygonExtendedProps[];
     newPolygon?: MapPolygonExtendedProps | undefined;
-    onPolygonCreate?: ((_polygon: MapPolygonExtendedProps) => void) | undefined;
+    onPolygonCreate?: ((polygon: MapPolygonExtendedProps) => void) | undefined;
     onPolygonChange?: ((_index: number, _polygon: MapPolygonExtendedProps) => void) | undefined;
-    onPolygonRemove?: ((_index: number) => void) | undefined;
+    onPolygonRemove?: ((index: number) => void) | undefined;
     onPolygonSelect?: ((_index: number, _polygon: MapPolygonExtendedProps) => void) | undefined;
     onPolygonUnselect?: ((_index: number, _polygon: MapPolygonExtendedProps) => void) | undefined;
     disabled?: boolean | undefined;

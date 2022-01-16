@@ -5,7 +5,7 @@ import { getMiddleCoordinates } from '../lib/helpers';
 export default function SubCircleMarkers(props) {
     const middleCoordinates = getMiddleCoordinates(props.polygon.coordinates);
     return (<>
-            {middleCoordinates.map((coordinate, coordIndex) => (<Marker key={coordIndex} identifier={coordIndex.toString()} coordinate={coordinate} anchor={{ x: 0.5, y: 0.5 }} draggable={true} onDragStart={props.onSubMarkerDragStart(coordIndex)} onDrag={props.onMarkerDrag(coordIndex)} onDragEnd={props.onMarkerDragEnd(coordIndex)} tracksViewChanges={true}>
+            {middleCoordinates.map((coordinate, coordIndex) => (<Marker key={coordIndex} identifier={coordIndex.toString()} coordinate={coordinate} anchor={{ x: 0.5, y: 0.5 }} draggable={true} onDragStart={props.onDragStart(coordIndex)} onDrag={props.onDrag(coordIndex)} onDragEnd={props.onDragEnd(coordIndex)} tracksViewChanges={true}>
                     <View style={[
                 styles.subCircleMarker,
                 {

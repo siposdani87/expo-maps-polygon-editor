@@ -207,8 +207,8 @@ function PolygonEditor(props, ref) {
             <Polygons polygons={polygons} onPolygonClick={onPolygonClick}/>
             <Polyline polygon={selectedPolyline}/>
             {selectedPolygon !== null && !disabled && (<>
-                    <SubCircleMarkers polygon={selectedPolygon} onSubMarkerDragStart={onSubMarkerDragStart} onMarkerDrag={onMarkerDrag} onMarkerDragEnd={onMarkerDragEnd}/>
-                    <CircleMarkers selectedMarkerIndex={selectedMarkerIndex} polygon={selectedPolygon} onMarkerDragStart={onMarkerDragStart} onMarkerDrag={onMarkerDrag} onMarkerDragEnd={onMarkerDragEnd} onMarkerPress={onMarkerPress}/>
+                    <SubCircleMarkers polygon={selectedPolygon} onDragStart={onSubMarkerDragStart} onDrag={onMarkerDrag} onDragEnd={onMarkerDragEnd}/>
+                    <CircleMarkers selectedMarkerIndex={selectedMarkerIndex} polygon={selectedPolygon} onDragStart={onMarkerDragStart} onDrag={onMarkerDrag} onDragEnd={onMarkerDragEnd} onPress={onMarkerPress}/>
                 </>)}
         </>);
 }
