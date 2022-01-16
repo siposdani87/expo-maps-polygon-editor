@@ -95,8 +95,12 @@ export default function App() {
     };
 
     const loadPolygons = (): void => {
-        resetAll();
         setPolygons([polygon0, polygon1]);
+    };
+
+    const reloadPolygons = (): void => {
+        resetAll();
+        loadPolygons();
     };
 
     const onPolygonChange = (
@@ -184,7 +188,7 @@ export default function App() {
                     title="Select 2nd"
                 />
                 <Button onPress={resetAll} title="Reset" />
-                <Button onPress={loadPolygons} title="Reload polygons" />
+                <Button onPress={reloadPolygons} title="Reload polygons" />
             </View>
         </View>
     );
