@@ -46,6 +46,16 @@
     "@turf/midpoint": "*"
   },
   "dependencies": {
+    "expo": "^46.0.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.5",
+    "@turf/boolean-point-in-polygon": "6.5.0",
+    "@turf/helpers": "6.5.0",
+    "@turf/midpoint": "6.5.0",
+    "react-native-maps": "0.31.1"
+  },
+  "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.6.2",
@@ -55,15 +65,7 @@
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "eslint": "^8.21.0",
-    "expo": "^46.0.0",
     "prettier": "^2.7.1",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
-    "react-native": "0.69.5",
-    "@turf/boolean-point-in-polygon": "6.5.0",
-    "@turf/helpers": "6.5.0",
-    "@turf/midpoint": "6.5.0",
-    "react-native-maps": "0.31.1",
     "typescript": "^4.6.3"
   }
 }
