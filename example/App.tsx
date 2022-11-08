@@ -7,7 +7,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Button, StyleSheet, View } from 'react-native';
-import MapView, { MapEvent } from 'react-native-maps';
+import MapView, { MapPressEvent } from 'react-native-maps';
 import { area0, area1 } from './areas';
 
 const [strokeColor0, fillColor0] = getRandomPolygonColors();
@@ -56,7 +56,7 @@ export default function App() {
         });
     };
 
-    const clickOnMap = ({ nativeEvent: { coordinate } }: MapEvent): void => {
+    const clickOnMap = ({ nativeEvent: { coordinate } }: MapPressEvent): void => {
         polygonEditorRef.current?.setCoordinate(coordinate);
     };
 

@@ -1,13 +1,15 @@
 import React from 'react';
-import { MapEvent, Polygon } from 'react-native-maps';
+import { Polygon } from 'react-native-maps';
 import { MapPolygonExtendedProps } from '../lib/types';
+
+export type PolygonPressEvent = any;
 
 export default function Polygons(props: {
     polygons: MapPolygonExtendedProps[];
     onPolygonClick: (
         _index: number,
         _polygon: MapPolygonExtendedProps,
-    ) => (e: MapEvent) => void;
+    ) => (e: PolygonPressEvent) => void;
 }): JSX.Element {
     return (
         <>

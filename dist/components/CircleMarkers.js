@@ -1,5 +1,5 @@
 import React from 'react';
-import { Marker } from 'react-native-maps';
+import { Marker, } from 'react-native-maps';
 import Circle from './Circle';
 import RemoverCircle from './RemoverCircle';
 export default function CircleMarkers(props) {

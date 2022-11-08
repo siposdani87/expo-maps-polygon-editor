@@ -1,3 +1,8 @@
+## 0.6.0 - 2022-11-08
+
+* Upgrade Expo SDK to version 47
+* Use new map events
+
 ## 0.5.0 - 2022-08-04
 
 * Upgrade Expo SDK to version 46

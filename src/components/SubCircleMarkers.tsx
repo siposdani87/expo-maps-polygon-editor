@@ -1,14 +1,18 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { MapEvent, Marker } from 'react-native-maps';
+import {
+    Marker,
+    MarkerDragEvent,
+    MarkerDragStartEndEvent,
+} from 'react-native-maps';
 import { MapPolygonExtendedProps } from '../lib/types';
 import { getMiddleCoordinates } from '../lib/helpers';
 
 export default function SubCircleMarkers(props: {
     polygon: MapPolygonExtendedProps;
-    onDragStart: (index: number) => (e: MapEvent) => void;
-    onDrag: (index: number) => (e: MapEvent) => void;
-    onDragEnd: (index: number) => (e: MapEvent) => void;
+    onDragStart: (index: number) => (e: MarkerDragStartEndEvent) => void;
+    onDrag: (index: number) => (e: MarkerDragEvent) => void;
+    onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
 }): JSX.Element {
     const middleCoordinates = getMiddleCoordinates(props.polygon.coordinates);
     return (

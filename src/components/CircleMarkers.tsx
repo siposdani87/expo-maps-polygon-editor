@@ -1,5 +1,11 @@
 import React from 'react';
-import { LatLng, MapEvent, Marker } from 'react-native-maps';
+import {
+    LatLng,
+    Marker,
+    MarkerDragEvent,
+    MarkerDragStartEndEvent,
+    MarkerPressEvent,
+} from 'react-native-maps';
 import { MapPolygonExtendedProps } from '../lib/types';
 import Circle from './Circle';
 import RemoverCircle from './RemoverCircle';
@@ -7,10 +13,10 @@ import RemoverCircle from './RemoverCircle';
 export default function CircleMarkers(props: {
     selectedMarkerIndex: number | null;
     polygon: MapPolygonExtendedProps;
-    onDragStart: (index: number) => (e: MapEvent) => void;
-    onDrag: (index: number) => (e: MapEvent) => void;
-    onDragEnd: (index: number) => (e: MapEvent) => void;
-    onPress: (index: number) => (e: MapEvent) => void;
+    onDragStart: (index: number) => (e: MarkerDragStartEndEvent) => void;
+    onDrag: (index: number) => (e: MarkerDragEvent) => void;
+    onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
+    onPress: (index: number) => (e: MarkerPressEvent) => void;
 }): JSX.Element {
     const isSelectedMarker = (coordIndex: number | null): boolean => {
         return props.selectedMarkerIndex === coordIndex;

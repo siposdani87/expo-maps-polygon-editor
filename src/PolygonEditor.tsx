@@ -5,7 +5,12 @@ import React, {
     useImperativeHandle,
     useState,
 } from 'react';
-import { LatLng, MapEvent } from 'react-native-maps';
+import {
+    LatLng,
+    MarkerDragEvent,
+    MarkerDragStartEndEvent,
+    MarkerPressEvent,
+} from 'react-native-maps';
 import {
     useNewPolygon,
     usePolygonFinder,
@@ -23,6 +28,7 @@ import {
     Polyline,
     Polygons,
 } from './components';
+import { PolygonPressEvent } from './components/Polygons';
 
 function PolygonEditor(
     props: {
@@ -197,7 +203,7 @@ function PolygonEditor(
         index: number,
         polygon: MapPolygonExtendedProps,
     ) => {
-        return (e: MapEvent) => {
+        return (e: PolygonPressEvent) => {
             e.stopPropagation();
             if (disabled) {
                 return;
@@ -241,19 +247,19 @@ function PolygonEditor(
     };
 
     const onSubMarkerDragStart = (coordIndex: number) => {
-        return ({ nativeEvent: { coordinate } }: MapEvent) => {
+        return ({ nativeEvent: { coordinate } }: MarkerDragStartEndEvent) => {
             addCoordinateToSelectedPolyline(coordinate, coordIndex);
         };
     };
 
     const onMarkerDragStart = (_coordIndex: number) => {
-        return (_e: MapEvent) => {
+        return (_e: MarkerDragStartEndEvent) => {
             setSelectedPolyline(selectedPolygon);
         };
     };
 
     const onMarkerDrag = (coordIndex: number) => {
-        return ({ nativeEvent: { coordinate } }: MapEvent) => {
+        return ({ nativeEvent: { coordinate } }: MarkerDragEvent) => {
             debounce(() => {
                 changeSelectedPolylineCoordinate(coordIndex, coordinate);
             }, 25);
@@ -261,7 +267,7 @@ function PolygonEditor(
     };
 
     const onMarkerDragEnd = (_coordIndex: number) => {
-        return (_e: MapEvent) => {
+        return (_e: MarkerDragStartEndEvent) => {
             debounce(() => {
                 synchronizePolylineToPolygon();
             }, 25);
@@ -269,7 +275,7 @@ function PolygonEditor(
     };
 
     const onMarkerPress = (coordIndex: number) => {
-        return (e: MapEvent) => {
+        return (e: MarkerPressEvent) => {
             e.stopPropagation();
             if (isSelectedMarker(coordIndex)) {
                 removeCoordinateFromSelectedPolygon(coordIndex);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Marker } from 'react-native-maps';
+import { Marker, } from 'react-native-maps';
 import { getMiddleCoordinates } from '../lib/helpers';
 export default function SubCircleMarkers(props) {
     const middleCoordinates = getMiddleCoordinates(props.polygon.coordinates);
