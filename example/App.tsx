@@ -144,7 +144,11 @@ export default function App() {
     };
 
     useEffect(() => {
-        selectPolygonByKey('key_1');
+        selectPolygonByIndex(0);
+
+        setTimeout(() => {
+            selectPolygonByKey('key_1');
+        }, 500);
     }, []);
 
     useEffect(() => {
