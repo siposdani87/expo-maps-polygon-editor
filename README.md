@@ -14,9 +14,6 @@ This multi polygon editor written in TypeScript for the React Native Maps compon
 
 ```
 npm install @siposdani87/expo-maps-polygon-editor
-
-# Expo
-expo install @siposdani87/expo-maps-polygon-editor
 ```
 
 ### Basic Usage
