@@ -7,8 +7,8 @@ export type PolygonPressEvent = any;
 export default function Polygons(props: {
     polygons: MapPolygonExtendedProps[];
     onPolygonClick: (
-        _index: number,
-        _polygon: MapPolygonExtendedProps,
+        index: number,
+        polygon: MapPolygonExtendedProps,
     ) => (e: PolygonPressEvent) => void;
 }): JSX.Element {
     return (

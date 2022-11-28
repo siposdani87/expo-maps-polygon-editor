@@ -36,17 +36,17 @@ function PolygonEditor(
         newPolygon?: MapPolygonExtendedProps;
         onPolygonCreate?: (polygon: MapPolygonExtendedProps) => void;
         onPolygonChange?: (
-            _index: number,
-            _polygon: MapPolygonExtendedProps,
+            index: number,
+            polygon: MapPolygonExtendedProps,
         ) => void;
         onPolygonRemove?: (index: number) => void;
         onPolygonSelect?: (
-            _index: number,
-            _polygon: MapPolygonExtendedProps,
+            index: number,
+            polygon: MapPolygonExtendedProps,
         ) => void;
         onPolygonUnselect?: (
-            _index: number,
-            _polygon: MapPolygonExtendedProps,
+            index: number,
+            polygon: MapPolygonExtendedProps,
         ) => void;
         disabled?: boolean;
     },

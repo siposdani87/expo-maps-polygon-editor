@@ -3,5 +3,5 @@ import { MapPolygonExtendedProps } from '../lib/types';
 export declare type PolygonPressEvent = any;
 export default function Polygons(props: {
     polygons: MapPolygonExtendedProps[];
-    onPolygonClick: (_index: number, _polygon: MapPolygonExtendedProps) => (e: PolygonPressEvent) => void;
+    onPolygonClick: (index: number, polygon: MapPolygonExtendedProps) => (e: PolygonPressEvent) => void;
 }): JSX.Element;
