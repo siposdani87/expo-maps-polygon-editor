@@ -42,7 +42,7 @@ export default function App() {
     const mapRef = useRef<MapView>(null);
     const polygonEditorRef = useRef<PolygonEditorRef>(null);
 
-    const onLayoutReady = (): void => {
+    const onMapReady = (): void => {
         fitToCoordinates();
     };
 
@@ -168,7 +168,7 @@ export default function App() {
                 ref={mapRef}
                 onPress={clickOnMap}
                 style={styles.mapContainer}
-                onLayout={onLayoutReady}
+                onMapReady={onMapReady}
             >
                 <PolygonEditor
                     ref={polygonEditorRef}
