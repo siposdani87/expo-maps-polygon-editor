@@ -74,17 +74,26 @@ const styles = StyleSheet.create({
 
 | Prop              | Type                                                      | Description |
 | ----------------- | --------------------------------------------------------- | ----------- |
-| polygons *        | MapPolygonExtendedProps[]                                 | |
-| onPolygonChange   | (index: number, polygon: MapPolygonExtendedProps) => void | |
-| onPolygonCreate   | (polygon: MapPolygonExtendedProps) => void                | |
-| onPolygonRemove   | (index: number) => void                                   | |
-| onPolygonSelect   | (index: number, polygon: MapPolygonExtendedProps) => void | |
-| onPolygonUnselect | (index: number, polygon: MapPolygonExtendedProps) => void | |
+| polygons *        | MapPolygonExtendedProps[]                                 | Input polygons array |
+| onPolygonChange   | (index: number, polygon: MapPolygonExtendedProps) => void | change polygon callback |
+| onPolygonCreate   | (polygon: MapPolygonExtendedProps) => void                | create polygon callback |
+| onPolygonRemove   | (index: number) => void                                   | Delete polygon callback |
+| onPolygonSelect   | (index: number, polygon: MapPolygonExtendedProps) => void | Select polygon callback |
+| onPolygonUnselect | (index: number, polygon: MapPolygonExtendedProps) => void | Deselect polygon callback |
 | disabled          | boolean                                                   | Disable editing on component |
 
 ## Preview
+
 ![Overview](https://raw.githubusercontent.com/siposdani87/expo-maps-polygon-editor/master/images/expo-maps-polygon-editor.png)
 
 ## Bugs or Requests
 
 If you encounter any problems feel free to open an [issue](https://github.com/siposdani87/expo-maps-polygon-editor/issues/new?template=bug_report.md). If you feel the library is missing a feature, please raise a [ticket](https://github.com/siposdani87/expo-maps-polygon-editor/issues/new?template=feature_request.md). Pull request are also welcome.
+
+## Developer
+
+[Dániel Sipos](https://siposdani87.com)
+
+## Sponsors
+
+This project is generously supported by [TrophyMap](https://trophymap.org), [I18Nature](https://i18nature.com), and several other amazing organizations.
