@@ -2,7 +2,7 @@
   "name": "@siposdani87/expo-maps-polygon-editor-example",
   "version": "1.0.0",
   "description": "Example of expo-maps-polygon-editor",
-  "author": "Dániel Sipos",
+  "author": "Dániel Sipos <siposdani87@gmail.com> (https://siposdani87.com)",
   "license": "MIT",
   "homepage": "https://siposdani87.com",
   "private": false,
