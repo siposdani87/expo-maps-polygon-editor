@@ -4,7 +4,7 @@
 [![Download](https://img.shields.io/npm/dt/@siposdani87/expo-maps-polygon-editor.svg?style=square)](https://www.npmjs.com/package/@siposdani87/expo-maps-polygon-editor)
 [![License](https://img.shields.io/npm/l/@siposdani87/expo-maps-polygon-editor.svg?style=square)](./LICENSE)
 
-<a href="https://www.buymeacoffee.com/siposdani87" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="width: 150px !important;"></a>
+<a href="https://www.buymeacoffee.com/siposdani87" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="width: 150px !important;" /></a>
 
 This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps. You can edit multiple polygons at the same time.
 
