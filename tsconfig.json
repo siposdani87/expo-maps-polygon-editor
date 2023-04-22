@@ -5,7 +5,7 @@
       "rootDir": "src",
       "module": "ESNext",
       "target": "ESNext",
-      "lib": ["DOM", "ESNext"],
+      "lib": ["ESNext"],
       "moduleResolution": "Node",
       "jsx": "react-native",
       "declaration": true,
