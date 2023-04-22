@@ -1,8 +1,12 @@
-## 0.9.0 - TBD
+## 1.0.0 - TBD
 
 * 
 
-## 0.8.0 - 2023-04-22
+## 0.9.0 - 2023-04-22
+
+* Fix build script
+
+## 0.8.0 - 2023-04-21
 
 * Upgrade react native to version 0.71.6
 
