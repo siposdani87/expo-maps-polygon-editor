@@ -1,10 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-export default function Circle(props: {
-    size: number;
-    color?: string;
-}): JSX.Element {
+export default function Circle(props: { size: number; color?: string }) {
     return (
         <View
             style={[

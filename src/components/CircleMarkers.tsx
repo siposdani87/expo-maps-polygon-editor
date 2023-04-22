@@ -17,7 +17,7 @@ export default function CircleMarkers(props: {
     onDrag: (index: number) => (e: MarkerDragEvent) => void;
     onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
     onPress: (index: number) => (e: MarkerPressEvent) => void;
-}): JSX.Element {
+}) {
     const isSelectedMarker = (coordIndex: number | null): boolean => {
         return props.selectedMarkerIndex === coordIndex;
     };

@@ -13,7 +13,7 @@ export default function SubCircleMarkers(props: {
     onDragStart: (index: number) => (e: MarkerDragStartEndEvent) => void;
     onDrag: (index: number) => (e: MarkerDragEvent) => void;
     onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
-}): JSX.Element {
+}) {
     const middleCoordinates = getMiddleCoordinates(props.polygon.coordinates);
     return (
         <>

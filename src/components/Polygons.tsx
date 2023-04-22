@@ -10,7 +10,7 @@ export default function Polygons(props: {
         index: number,
         polygon: MapPolygonExtendedProps,
     ) => (e: PolygonPressEvent) => void;
-}): JSX.Element {
+}) {
     return (
         <>
             {props.polygons.map((polygon, index) => (

@@ -4,7 +4,7 @@ import { MapPolygonExtendedProps } from '../lib/types';
 
 export default function Polyline(props: {
     polygon: MapPolygonExtendedProps | null;
-}): JSX.Element | null {
+}) {
     if (props.polygon === null) {
         return null;
     }
