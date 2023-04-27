@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function RemoverCircle() {
+export const RemoverCircle = () => {
     return (
         <View style={styles.removeMarkerContainer}>
             <Text style={styles.removeMarkerText}>x</Text>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     removeMarkerContainer: {

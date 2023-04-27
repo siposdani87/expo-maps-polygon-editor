@@ -1,5 +1,5 @@
 /// <reference types="react" />
 import { MapPolygonExtendedProps } from '../lib/types';
-export default function Polyline(props: {
+export declare const Polyline: (props: {
     polygon: MapPolygonExtendedProps | null;
-}): JSX.Element | null;
+}) => JSX.Element | null;

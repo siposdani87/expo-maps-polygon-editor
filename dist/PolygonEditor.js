@@ -3,10 +3,10 @@ import { useNewPolygon, usePolygonFinder, useSelectedKey, useDisabled, usePolygo
 import { isPointInPolygon } from './lib/geospatials';
 import { addCoordinateToPolygon, debounce } from './lib/helpers';
 import { CircleMarkers, SubCircleMarkers, Polyline, Polygons, } from './components';
-function PolygonEditor(props, ref) {
+export const PolygonEditor = forwardRef((props, ref) => {
     const [selectedPolygon, setSelectedPolygon] = useState(null);
     const [selectedPolyline, setSelectedPolyline] = useState(null);
-    const { selectedMarkerIndex, setSelectedMarkerIndex, isSelectedMarker } = useSelectedMarker();
+    const { selectedMarkerIndex, setSelectedMarkerIndex, isSelectedMarker, } = useSelectedMarker();
     const polygons = usePolygons(props.polygons);
     const disabled = useDisabled(() => {
         resetAll();
@@ -154,7 +154,7 @@ function PolygonEditor(props, ref) {
         }
     };
     const onSubMarkerDragStart = (coordIndex) => {
-        return ({ nativeEvent: { coordinate } }) => {
+        return ({ nativeEvent: { coordinate }, }) => {
             addCoordinateToSelectedPolyline(coordinate, coordIndex);
         };
     };
@@ -204,13 +204,12 @@ function PolygonEditor(props, ref) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPolygon]);
     return (<>
-            <Polygons polygons={polygons} onPolygonClick={onPolygonClick}/>
-            <Polyline polygon={selectedPolyline}/>
-            {selectedPolygon !== null && !disabled && (<>
-                    <SubCircleMarkers polygon={selectedPolygon} onDragStart={onSubMarkerDragStart} onDrag={onMarkerDrag} onDragEnd={onMarkerDragEnd}/>
-                    <CircleMarkers selectedMarkerIndex={selectedMarkerIndex} polygon={selectedPolygon} onDragStart={onMarkerDragStart} onDrag={onMarkerDrag} onDragEnd={onMarkerDragEnd} onPress={onMarkerPress}/>
-                </>)}
-        </>);
-}
-export default forwardRef(PolygonEditor);
+                <Polygons polygons={polygons} onPolygonClick={onPolygonClick}/>
+                <Polyline polygon={selectedPolyline}/>
+                {selectedPolygon !== null && !disabled && (<>
+                        <SubCircleMarkers polygon={selectedPolygon} onDragStart={onSubMarkerDragStart} onDrag={onMarkerDrag} onDragEnd={onMarkerDragEnd}/>
+                        <CircleMarkers selectedMarkerIndex={selectedMarkerIndex} polygon={selectedPolygon} onDragStart={onMarkerDragStart} onDrag={onMarkerDrag} onDragEnd={onMarkerDragEnd} onPress={onMarkerPress}/>
+                    </>)}
+            </>);
+});
 //# sourceMappingURL=PolygonEditor.js.map

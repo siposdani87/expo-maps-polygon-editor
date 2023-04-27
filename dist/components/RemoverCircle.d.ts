@@ -1,2 +1,2 @@
 /// <reference types="react" />
-export default function RemoverCircle(): JSX.Element;
+export declare const RemoverCircle: () => JSX.Element;

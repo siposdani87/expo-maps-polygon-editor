@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-export default function Circle(props) {
+export const Circle = (props) => {
     return (<View style={[
             styles.circleMarker,
             {
@@ -8,7 +8,7 @@ export default function Circle(props) {
                 padding: props.size,
             },
         ]}/>);
-}
+};
 const styles = StyleSheet.create({
     circleMarker: {
         backgroundColor: '#fff',

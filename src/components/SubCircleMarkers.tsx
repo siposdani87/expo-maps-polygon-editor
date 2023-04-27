@@ -8,12 +8,12 @@ import {
 import { MapPolygonExtendedProps } from '../lib/types';
 import { getMiddleCoordinates } from '../lib/helpers';
 
-export default function SubCircleMarkers(props: {
+export const SubCircleMarkers = (props: {
     polygon: MapPolygonExtendedProps;
     onDragStart: (index: number) => (e: MarkerDragStartEndEvent) => void;
     onDrag: (index: number) => (e: MarkerDragEvent) => void;
     onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
-}) {
+}) => {
     const middleCoordinates = getMiddleCoordinates(props.polygon.coordinates);
     return (
         <>
@@ -41,7 +41,7 @@ export default function SubCircleMarkers(props: {
             ))}
         </>
     );
-}
+};
 
 const styles = StyleSheet.create({
     subCircleMarker: {

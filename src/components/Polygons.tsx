@@ -4,13 +4,13 @@ import { MapPolygonExtendedProps } from '../lib/types';
 
 export type PolygonPressEvent = any;
 
-export default function Polygons(props: {
+export const Polygons = (props: {
     polygons: MapPolygonExtendedProps[];
     onPolygonClick: (
         index: number,
         polygon: MapPolygonExtendedProps,
     ) => (e: PolygonPressEvent) => void;
-}) {
+}) => {
     return (
         <>
             {props.polygons.map((polygon, index) => (
@@ -22,4 +22,4 @@ export default function Polygons(props: {
             ))}
         </>
     );
-}
+};

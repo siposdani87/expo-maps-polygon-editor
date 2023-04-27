@@ -1,5 +1,5 @@
 /// <reference types="react" />
-export default function Circle(props: {
+export declare const Circle: (props: {
     size: number;
     color?: string;
-}): JSX.Element;
+}) => JSX.Element;
