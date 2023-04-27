@@ -1,6 +1,11 @@
-## 1.0.0 - TBD
+## 1.0.1 - TBD
 
 * 
+
+## 1.0.0 - 2023-04-27
+
+* Upgrade React Native to version 0.71.7
+* Improve exports
 
 ## 0.9.0 - 2023-04-22
 
