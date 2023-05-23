@@ -1,6 +1,14 @@
-## 1.0.2 - TBD
+## 1.0.3 - TBD
 
-* 
+*
+
+## 1.0.2 - 2023-05-23
+
+* Upgrade React Native to version 0.71.8
+
+## 1.0.1 - 2023-05-23
+
+* Fix sonar lint issues
 
 ## 1.0.0 - 2023-04-27
 
@@ -13,7 +21,7 @@
 
 ## 0.8.0 - 2023-04-21
 
-* Upgrade react native to version 0.71.6
+* Upgrade React Native to version 0.71.6
 
 ## 0.7.0 - 2023-02-25
 

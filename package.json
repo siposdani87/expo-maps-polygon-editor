@@ -48,7 +48,7 @@
   "dependencies": {
     "expo": "^48.0.0",
     "react": "18.2.0",
-    "react-native": "0.71.7",
+    "react-native": "0.71.8",
     "@turf/boolean-point-in-polygon": "6.5.0",
     "@turf/helpers": "6.5.0",
     "@turf/midpoint": "6.5.0",
