@@ -48,7 +48,7 @@
   "dependencies": {
     "expo": "^49.0.0",
     "react": "18.2.0",
-    "react-native": "0.72.1",
+    "react-native": "0.72.3",
     "@turf/boolean-point-in-polygon": "6.5.0",
     "@turf/helpers": "6.5.0",
     "@turf/midpoint": "6.5.0",
@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
-    "@types/react": "~18.0.27",
+    "@types/react": "~18.2.14",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "eslint": "^8.21.0",

@@ -30,13 +30,13 @@
     "@turf/midpoint": "6.5.0",
     "expo": "^49.0.0",
     "react": "18.2.0",
-    "react-native": "0.72.1",
+    "react-native": "0.72.3",
     "react-native-maps": "1.7.1",
     "expo-status-bar": "~1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.0.27",
+    "@types/react": "~18.2.14",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "@react-native-community/eslint-config": "^3.0.1",
