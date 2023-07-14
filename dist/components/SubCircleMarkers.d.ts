@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import { MarkerDragEvent, MarkerDragStartEndEvent } from 'react-native-maps';
 import { MapPolygonExtendedProps } from '../lib/types';
 export declare const SubCircleMarkers: (props: {
@@ -6,4 +6,4 @@ export declare const SubCircleMarkers: (props: {
     onDragStart: (index: number) => (e: MarkerDragStartEndEvent) => void;
     onDrag: (index: number) => (e: MarkerDragEvent) => void;
     onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
-}) => JSX.Element;
+}) => React.JSX.Element;

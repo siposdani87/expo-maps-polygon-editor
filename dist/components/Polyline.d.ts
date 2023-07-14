@@ -1,5 +1,5 @@
-/// <reference types="react" />
+import React from 'react';
 import { MapPolygonExtendedProps } from '../lib/types';
 export declare const Polyline: (props: {
     polygon: MapPolygonExtendedProps | null;
-}) => JSX.Element | null;
+}) => React.JSX.Element | null;

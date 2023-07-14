@@ -1,5 +1,5 @@
-/// <reference types="react" />
+import React from 'react';
 export declare const Circle: (props: {
     size: number;
     color?: string;
-}) => JSX.Element;
+}) => React.JSX.Element;
