@@ -31,8 +31,8 @@
     "expo": "^50.0.2",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
-    "react-native": "0.73.2",
-    "react-native-maps": "1.8.0"
+    "react-native": "0.73.4",
+    "react-native-maps": "1.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

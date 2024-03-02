@@ -51,8 +51,8 @@
     "@turf/midpoint": "*",
     "expo": "^50.0.2",
     "react": ">=18.2",
-    "react-native": "0.73.2",
-    "react-native-maps": "1.8.0"
+    "react-native": "0.73.4",
+    "react-native-maps": "1.10.0"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
