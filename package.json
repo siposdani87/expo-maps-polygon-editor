@@ -1,6 +1,6 @@
 {
   "name": "@siposdani87/expo-maps-polygon-editor",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps.",
   "author": "Dániel Sipos",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "@turf/boolean-point-in-polygon": "*",
     "@turf/helpers": "*",
     "@turf/midpoint": "*",
-    "react": ">=18.2",
+    "react": "*",
     "react-native": "*",
     "react-native-maps": "*"
   },
@@ -49,10 +49,10 @@
     "@turf/boolean-point-in-polygon": "*",
     "@turf/helpers": "*",
     "@turf/midpoint": "*",
-    "expo": "^50.0.2",
-    "react": ">=18.2",
-    "react-native": "0.73.6",
-    "react-native-maps": "1.10.0"
+    "expo": "51.0.0",
+    "react": "18.2.0",
+    "react-native": "0.74.1",
+    "react-native-maps": "1.14.0"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
@@ -61,6 +61,6 @@
     "@typescript-eslint/parser": "^5.1.0",
     "eslint": "^8.21.0",
     "prettier": "^2.7.1",
-    "typescript": "^5.3.0"
+    "typescript": "~5.3.3"
   }
 }
