@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.0 - 2024-12-04
+
+* Upgrade Expo SDK to version 54
+* Upgrade React Native to version 0.81.5
+* Upgrade React to version 19.1.0
+* Upgrade react-native-maps to version 1.20.1
+* Upgrade TypeScript to version 5.9.3
+* Upgrade Prettier to version 3.4.2
+* Add expo-font dependency (required by @expo/vector-icons)
+* Fix TypeScript type imports for Turf.js to use geojson types
+
 ## 1.1.0 - 2024-05-08
 
 * Upgrade Expo SDK to version 51
