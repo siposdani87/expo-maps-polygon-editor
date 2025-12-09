@@ -16,9 +16,7 @@ export const isPointInPolygon = (
     return false;
 };
 
-export const getPointFromCoordinate = (
-    coordinate: LatLng,
-): Feature<Point> => {
+export const getPointFromCoordinate = (coordinate: LatLng): Feature<Point> => {
     return turfHelpers.point([coordinate.latitude, coordinate.longitude]);
 };
 

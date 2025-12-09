@@ -7,3 +7,7 @@ npm-debug.*
 
 # macOS
 .DS_Store
+
+# Native development folders
+android/
+ios/

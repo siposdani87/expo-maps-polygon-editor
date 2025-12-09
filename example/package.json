@@ -18,6 +18,10 @@
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
     "web": "npx expo start --web",
+    "prebuild": "npx expo prebuild",
+    "prebuild:clean": "npx expo prebuild --clean",
+    "run:ios": "npx expo run:ios",
+    "run:android": "npx expo run:android",
     "eject": "npx expo eject",
     "tsc-test": "npx tsc --project . --noEmit",
     "lint": "npx eslint --ext ts ."
@@ -44,6 +48,8 @@
     "@typescript-eslint/parser": "^5.62.0",
     "babel-preset-expo": "~54.0.7",
     "eslint": "^8.21.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-prettier": "^5.5.4",
     "jest-expo": "~54.0.13",
     "prettier": "^3.4.2",
     "typescript": "~5.9.3"

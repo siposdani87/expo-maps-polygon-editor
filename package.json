@@ -50,9 +50,9 @@
     "@turf/helpers": "*",
     "@turf/midpoint": "*",
     "expo": "~54.0.26",
-    "react": "19.1.0",
-    "react-native": "0.81.5",
-    "react-native-maps": "1.20.1"
+    "react": "*",
+    "react-native": "*",
+    "react-native-maps": "*"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
@@ -60,6 +60,8 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.21.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.4.2",
     "typescript": "~5.9.3"
   }

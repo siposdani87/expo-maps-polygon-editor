@@ -56,28 +56,13 @@ export const PolygonEditor = forwardRef((props, ref) => {
             // console.log('isPointInPolygon');
         }
         else if (selectedPolygon) {
-            if (isSelectedMarker(null)) {
-                addCoordinateToSelectedPolygon(coordinate);
-            }
-            else {
-                unselectPolygon();
-                resetSelection();
-            }
+            // Don't add coordinate, just unselect the polygon
+            // This prevents adding points when clicking another polygon
+            unselectPolygon();
+            resetSelection();
         }
         else {
             buildNewPolygon(coordinate);
-        }
-    };
-    const addCoordinateToSelectedPolygon = (coordinate, coordIndex) => {
-        if (!selectedPolygon) {
-            return;
-        }
-        const changedPolygon = addCoordinateToPolygon(selectedPolygon, coordinate, coordIndex);
-        setSelectedPolygon(changedPolygon);
-        setSelectedPolyline(changedPolygon);
-        const index = getIndexByKey(changedPolygon.key);
-        if (index != null) {
-            props.onPolygonChange?.(index, changedPolygon);
         }
     };
     const addCoordinateToSelectedPolyline = (coordinate, coordIndex) => {
@@ -191,18 +176,8 @@ export const PolygonEditor = forwardRef((props, ref) => {
     useImperativeHandle(ref, init);
     useEffect(() => {
         const polygon = selectedKey != null ? getPolygonByKey(selectedKey) : null;
-        if (selectedPolygon?.key !== polygon?.key) {
-            setSelectedPolygon(polygon);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [polygons, selectedKey]);
-    useEffect(() => {
-        const key = selectedPolygon?.key ?? null;
-        if (selectedKey !== key) {
-            setSelectedKey(key);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedPolygon]);
+        setSelectedPolygon(polygon);
+    }, [polygons, selectedKey, getPolygonByKey]);
     return (<>
                 <Polygons polygons={polygons} onPolygonClick={onPolygonClick}/>
                 <Polyline polygon={selectedPolyline}/>
