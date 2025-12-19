@@ -107,10 +107,11 @@ export const PolygonEditor = forwardRef((props, ref) => {
             }
             if (selectedKey === polygon.key) {
                 setSelectedKey(null);
-                props.onPolygonSelect?.(index, polygon);
+                props.onPolygonUnselect?.(index, polygon);
             }
             else {
                 setSelectedKey(polygon.key);
+                props.onPolygonSelect?.(index, polygon);
             }
             setSelectedMarkerIndex(null);
         };
@@ -150,9 +151,7 @@ export const PolygonEditor = forwardRef((props, ref) => {
     };
     const onMarkerDrag = (coordIndex) => {
         return ({ nativeEvent: { coordinate } }) => {
-            debounce(() => {
-                changeSelectedPolylineCoordinate(coordIndex, coordinate);
-            }, 25);
+            changeSelectedPolylineCoordinate(coordIndex, coordinate);
         };
     };
     const onMarkerDragEnd = (_coordIndex) => {

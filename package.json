@@ -42,21 +42,19 @@
     "@turf/helpers": "*",
     "@turf/midpoint": "*",
     "react": "*",
+    "react-dom": "*",
     "react-native": "*",
     "react-native-maps": "*"
   },
   "dependencies": {
     "@turf/boolean-point-in-polygon": "*",
     "@turf/helpers": "*",
-    "@turf/midpoint": "*",
-    "expo": "~54.0.26",
-    "react": "*",
-    "react-native": "*",
-    "react-native-maps": "*"
+    "@turf/midpoint": "*"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
     "@types/react": "~19.1.0",
+    "@types/react-dom": "~19.1.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.21.0",
