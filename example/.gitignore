@@ -5,5 +5,13 @@ node_modules/
 
 npm-debug.*
 
+# Environment variables
+.env
+.env.local
+
 # macOS
 .DS_Store
+
+# Native development folders
+android/
+ios/

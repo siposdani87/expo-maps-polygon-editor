@@ -128,34 +128,12 @@ export const PolygonEditor = forwardRef(
             if (isPointInPolygon(coordinate, coordinates)) {
                 // console.log('isPointInPolygon');
             } else if (selectedPolygon) {
-                if (isSelectedMarker(null)) {
-                    addCoordinateToSelectedPolygon(coordinate);
-                } else {
-                    unselectPolygon();
-                    resetSelection();
-                }
+                // Don't add coordinate, just unselect the polygon
+                // This prevents adding points when clicking another polygon
+                unselectPolygon();
+                resetSelection();
             } else {
                 buildNewPolygon(coordinate);
-            }
-        };
-
-        const addCoordinateToSelectedPolygon = (
-            coordinate: LatLng,
-            coordIndex?: number,
-        ): void => {
-            if (!selectedPolygon) {
-                return;
-            }
-            const changedPolygon = addCoordinateToPolygon(
-                selectedPolygon,
-                coordinate,
-                coordIndex,
-            );
-            setSelectedPolygon(changedPolygon);
-            setSelectedPolyline(changedPolygon);
-            const index = getIndexByKey(changedPolygon.key);
-            if (index != null) {
-                props.onPolygonChange?.(index, changedPolygon);
             }
         };
 
@@ -214,9 +192,10 @@ export const PolygonEditor = forwardRef(
                 }
                 if (selectedKey === polygon.key) {
                     setSelectedKey(null);
-                    props.onPolygonSelect?.(index, polygon);
+                    props.onPolygonUnselect?.(index, polygon);
                 } else {
                     setSelectedKey(polygon.key);
+                    props.onPolygonSelect?.(index, polygon);
                 }
                 setSelectedMarkerIndex(null);
             };
@@ -266,9 +245,7 @@ export const PolygonEditor = forwardRef(
 
         const onMarkerDrag = (coordIndex: number) => {
             return ({ nativeEvent: { coordinate } }: MarkerDragEvent) => {
-                debounce(() => {
-                    changeSelectedPolylineCoordinate(coordIndex, coordinate);
-                }, 25);
+                changeSelectedPolylineCoordinate(coordIndex, coordinate);
             };
         };
 
@@ -296,19 +273,8 @@ export const PolygonEditor = forwardRef(
         useEffect(() => {
             const polygon =
                 selectedKey != null ? getPolygonByKey(selectedKey) : null;
-            if (selectedPolygon?.key !== polygon?.key) {
-                setSelectedPolygon(polygon);
-            }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [polygons, selectedKey]);
-
-        useEffect(() => {
-            const key = selectedPolygon?.key ?? null;
-            if (selectedKey !== key) {
-                setSelectedKey(key);
-            }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [selectedPolygon]);
+            setSelectedPolygon(polygon);
+        }, [polygons, selectedKey, getPolygonByKey]);
 
         return (
             <>

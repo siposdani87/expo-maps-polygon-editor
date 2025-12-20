@@ -2,6 +2,7 @@ import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import * as turfHelpers from '@turf/helpers';
 import midpoint from '@turf/midpoint';
 import { LatLng } from 'react-native-maps';
+import type { Feature, Point, Polygon } from 'geojson';
 
 export const isPointInPolygon = (
     coordinate: LatLng,
@@ -15,15 +16,13 @@ export const isPointInPolygon = (
     return false;
 };
 
-export const getPointFromCoordinate = (
-    coordinate: LatLng,
-): turfHelpers.Feature<turfHelpers.Point> => {
+export const getPointFromCoordinate = (coordinate: LatLng): Feature<Point> => {
     return turfHelpers.point([coordinate.latitude, coordinate.longitude]);
 };
 
 export const getPolygonFromCoordinates = (
     coordinates: LatLng[],
-): turfHelpers.Feature<turfHelpers.Polygon> | null => {
+): Feature<Polygon> | null => {
     if (coordinates.length < 3) {
         return null;
     }
