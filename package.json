@@ -8,6 +8,17 @@
   "private": false,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "keywords": [
     "expo-maps-polygon-editor",
     "react-native-maps",
@@ -29,38 +40,41 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "npm run clean",
+    "prebuild": "npm run lint && npm run format && npm test && npm run clean",
     "build": "npx tsc -p .",
     "clean": "rm -rf dist",
     "lint": "npx eslint . --ext .ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No tests specified\"",
     "format": "npx prettier --write 'src/**/*.ts*'"
   },
   "peerDependencies": {
-    "@turf/boolean-point-in-polygon": "*",
-    "@turf/helpers": "*",
-    "@turf/midpoint": "*",
-    "react": "*",
-    "react-dom": "*",
-    "react-native": "*",
-    "react-native-maps": "*"
+    "@turf/boolean-point-in-polygon": ">=6.5.0",
+    "@turf/helpers": ">=6.5.0",
+    "@turf/midpoint": ">=6.5.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-native": ">=0.72.0",
+    "react-native-maps": ">=1.14.0"
   },
   "dependencies": {
-    "@turf/boolean-point-in-polygon": "*",
-    "@turf/helpers": "*",
-    "@turf/midpoint": "*"
+    "@turf/boolean-point-in-polygon": ">=6.5.0",
+    "@turf/helpers": ">=6.5.0",
+    "@turf/midpoint": ">=6.5.0"
   },
   "devDependencies": {
-    "@react-native-community/eslint-config": "^3.0.1",
+    "@types/google.maps": "^3.58.1",
     "@types/react": "~19.1.0",
     "@types/react-dom": "~19.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "prettier": "^3.4.2",
+    "react-native-maps": "^1.20.1",
     "typescript": "~5.9.3"
   }
 }
