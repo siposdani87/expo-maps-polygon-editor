@@ -41,7 +41,7 @@ export const CircleMarkers = (props: {
                         {isSelectedMarker(coordIndex) && <RemoverCircle />}
                         {!isSelectedMarker(coordIndex) && (
                             <Circle
-                                size={isSelectedMarker(coordIndex) ? 15 : 8}
+                                size={8}
                                 color={props.polygon.strokeColor}
                             />
                         )}
