@@ -149,6 +149,67 @@
 - [x] `src/web/Polygon.tsx` — `polygonRef: useRef<any>`, `listenerRef: useRef<any>`
 - **Fix:** Add `@types/google.maps` as devDependency and replace `any` with proper Google Maps types
 
+## Phase 9 — Developer Experience (from expo-rich-text-editor patterns)
+
+### 9.1 Add pre-commit hooks (husky + lint-staged)
+
+- [x] Automatically run lint and format on staged files before each commit.
+- **Setup:** `husky` for git hooks, `lint-staged` for running ESLint + Prettier on `src/**/*.{ts,tsx}`.
+
+### 9.2 Add commitlint with conventional commits
+
+- [x] Enforce consistent commit message format (`feat:`, `fix:`, `chore:`, etc.).
+- **Setup:** `@commitlint/cli` + `@commitlint/config-conventional`, husky `commit-msg` hook.
+
+### 9.3 Add `typesVersions` to `package.json`
+
+- [x] Fallback for older TypeScript consumers that don't support `exports`.
+- **Fix:** Add `"typesVersions": { "*": { "*": ["dist/index.d.ts"] } }`.
+
+## Phase 10 — Community Docs (from expo-rich-text-editor patterns)
+
+### 10.1 Add `CODEOWNERS`
+
+- [x] Automatic PR review assignment on GitHub.
+- **Fix:** Add `.github/CODEOWNERS` with `* @siposdani87`.
+
+### 10.2 Add `CODE_OF_CONDUCT.md`
+
+- [x] Standard Contributor Covenant for open source projects.
+
+### 10.3 Add `SECURITY.md`
+
+- [x] Vulnerability reporting policy.
+
+## Phase 11 — Automated Changelog & Releases
+
+### 11.1 Adopt conventional changelog generation
+
+- [x] Use `standard-version` or `release-please` to auto-generate `CHANGELOG.md` from conventional commits.
+- **Setup:** Add `release` script to `package.json`. Migrate existing CHANGELOG format to Keep a Changelog / Conventional Changelog.
+
+### 11.2 Add `release` npm script
+
+- [x] `npm run release` should bump version, update CHANGELOG, create git tag, and optionally push.
+
+## Phase 12 — Testing (Medium-Long Term)
+
+### 12.1 Add unit tests for utility functions
+
+- [ ] Test `src/lib/geospatials.ts` (point-in-polygon, midpoint calculations).
+- [ ] Test `src/lib/helpers.ts` (addCoordinateToPolygon, getMiddleCoordinates).
+- [ ] Test `src/lib/colors.ts` (getRandomPolygonColors).
+- **Setup:** Add `jest` + `@types/jest`, configure in `package.json`.
+
+### 12.2 Add hook tests
+
+- [ ] Test `useSelectedKey`, `useSelectedMarker`, `useNewPolygon`, `usePolygonFinder`, `useDisabled`.
+- **Setup:** Add `@testing-library/react-hooks` or use React Testing Library.
+
+### 12.3 Add CI step for test execution
+
+- [ ] Add `npm test` step to CI workflow after lint and build.
+
 ## Execution Order
 
 | Step | What | Risk | Files |
@@ -167,3 +228,9 @@
 | 12 | ~~Web platform cleanup (types, narrow `any`)~~ | Medium | `src/web/*.tsx` |
 | 13 | ~~Add SDK compatibility table + `CONTRIBUTING.md`~~ | Low | `README.md`, `CONTRIBUTING.md` |
 | 14 | ~~Stabilize callbacks with `useCallback` (2.2)~~ | Medium | `src/PolygonEditor.tsx` |
+| 15 | Pre-commit hooks (husky + lint-staged) | Low | `package.json`, `.husky/` |
+| 16 | Commitlint (conventional commits) | Low | `commitlint.config.js`, `.husky/commit-msg` |
+| 17 | `typesVersions` in package.json | Low | `package.json` |
+| 18 | Community docs (CODEOWNERS, CODE_OF_CONDUCT, SECURITY) | Low | `.github/CODEOWNERS`, root docs |
+| 19 | Automated changelog (standard-version) | Low | `package.json`, `CHANGELOG.md` |
+| 20 | Unit tests for utilities and hooks | Medium | `src/lib/__tests__/`, `src/hooks/__tests__/` |
