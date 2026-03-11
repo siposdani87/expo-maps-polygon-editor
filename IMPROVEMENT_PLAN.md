@@ -203,7 +203,7 @@
 
 ### 12.2 Add hook tests
 
-- [ ] Test `useSelectedKey`, `useSelectedMarker`, `useNewPolygon`, `usePolygonFinder`, `useDisabled`.
+- [x] Test `useSelectedKey`, `useSelectedMarker`, `useNewPolygon`, `usePolygonFinder`, `useDisabled`.
 - **Setup:** Add `@testing-library/react-hooks` or use React Testing Library.
 
 ### 12.3 Add CI step for test execution

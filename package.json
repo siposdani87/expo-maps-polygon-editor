@@ -82,6 +82,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.4.3",
     "@commitlint/config-conventional": "^20.4.3",
+    "@testing-library/react": "^16.3.2",
     "@types/google.maps": "^3.58.1",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",
@@ -95,9 +96,12 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "husky": "^9.1.7",
     "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
     "lint-staged": "^16.3.3",
     "prettier": "^3.4.2",
+    "react-dom": "^19.2.4",
     "react-native-maps": "^1.20.1",
+    "react-test-renderer": "^19.2.4",
     "standard-version": "^9.5.0",
     "ts-jest": "^29.4.6",
     "typescript": "~5.9.3"
