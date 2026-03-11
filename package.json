@@ -15,6 +15,13 @@
       "require": "./dist/index.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ]
+    }
+  },
   "sideEffects": false,
   "engines": {
     "node": ">=18"
@@ -46,7 +53,17 @@
     "lint": "npx eslint . --ext .ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
     "test": "echo \"No tests specified\"",
-    "format": "npx prettier --write 'src/**/*.ts*'"
+    "format": "npx prettier --write 'src/**/*.ts*'",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "peerDependencies": {
     "@turf/boolean-point-in-polygon": ">=6.5.0",
@@ -63,6 +80,8 @@
     "@turf/midpoint": ">=6.5.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.4.3",
+    "@commitlint/config-conventional": "^20.4.3",
     "@types/google.maps": "^3.58.1",
     "@types/react": "~19.1.0",
     "@types/react-dom": "~19.1.0",
@@ -73,8 +92,11 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.3",
     "prettier": "^3.4.2",
     "react-native-maps": "^1.20.1",
+    "standard-version": "^9.5.0",
     "typescript": "~5.9.3"
   }
 }
