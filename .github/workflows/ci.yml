@@ -1,7 +1,12 @@
-name: Node.js Package
+name: CI
 on:
   push:
     branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
       - master
 jobs:
   build:
@@ -11,10 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run lint
+      - run: npm test
       - run: npm run build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -3,6 +3,7 @@ import React, {
     useCallback,
     useEffect,
     useImperativeHandle,
+    useRef,
     useState,
 } from 'react';
 import {
@@ -16,12 +17,11 @@ import {
     usePolygonFinder,
     useSelectedKey,
     useDisabled,
-    usePolygons,
     useSelectedMarker,
 } from './hooks';
 import { isPointInPolygon } from './lib/geospatials';
 import { MapPolygonExtendedProps, PolygonEditorRef } from './lib/types';
-import { addCoordinateToPolygon, debounce } from './lib/helpers';
+import { addCoordinateToPolygon } from './lib/helpers';
 import {
     CircleMarkers,
     SubCircleMarkers,
@@ -51,12 +51,15 @@ export const PolygonEditor = forwardRef(
             ) => void;
             disabled?: boolean;
         },
-        ref: any,
+        ref: React.Ref<PolygonEditorRef>,
     ) => {
         const [selectedPolygon, setSelectedPolygon] =
             useState<MapPolygonExtendedProps | null>(null);
         const [selectedPolyline, setSelectedPolyline] =
             useState<MapPolygonExtendedProps | null>(null);
+        const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+            null,
+        );
 
         const {
             selectedMarkerIndex,
@@ -64,7 +67,7 @@ export const PolygonEditor = forwardRef(
             isSelectedMarker,
         } = useSelectedMarker();
 
-        const polygons = usePolygons(props.polygons);
+        const polygons = props.polygons;
 
         const disabled = useDisabled(() => {
             resetAll();
@@ -128,8 +131,6 @@ export const PolygonEditor = forwardRef(
             if (isPointInPolygon(coordinate, coordinates)) {
                 // console.log('isPointInPolygon');
             } else if (selectedPolygon) {
-                // Don't add coordinate, just unselect the polygon
-                // This prevents adding points when clicking another polygon
                 unselectPolygon();
                 resetSelection();
             } else {
@@ -168,7 +169,7 @@ export const PolygonEditor = forwardRef(
                 if (index != null) {
                     props.onPolygonRemove?.(index);
                 }
-            } else if (selectedPolygon) {
+            } else {
                 const changedPolygon = {
                     ...selectedPolygon,
                     coordinates,
@@ -237,8 +238,8 @@ export const PolygonEditor = forwardRef(
             };
         };
 
-        const onMarkerDragStart = (_coordIndex: number) => {
-            return (_e: MarkerDragStartEndEvent) => {
+        const onMarkerDragStart = () => {
+            return () => {
                 setSelectedPolyline(selectedPolygon);
             };
         };
@@ -249,9 +250,13 @@ export const PolygonEditor = forwardRef(
             };
         };
 
-        const onMarkerDragEnd = (_coordIndex: number) => {
-            return (_e: MarkerDragStartEndEvent) => {
-                debounce(() => {
+        const onMarkerDragEnd = () => {
+            return () => {
+                if (debounceTimeoutRef.current) {
+                    clearTimeout(debounceTimeoutRef.current);
+                }
+                debounceTimeoutRef.current = setTimeout(() => {
+                    debounceTimeoutRef.current = null;
                     synchronizePolylineToPolygon();
                 }, 25);
             };
@@ -302,3 +307,5 @@ export const PolygonEditor = forwardRef(
         );
     },
 );
+
+PolygonEditor.displayName = 'PolygonEditor';

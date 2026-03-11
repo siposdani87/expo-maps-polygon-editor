@@ -82,6 +82,22 @@ const styles = StyleSheet.create({
 | onPolygonUnselect | (index: number, polygon: MapPolygonExtendedProps) => void | Deselect polygon callback |
 | disabled          | boolean                                                   | Disable editing on component |
 
+## Compatibility
+
+| Package Version | Expo SDK | React Native | React | New Architecture |
+| --------------- | -------- | ------------ | ----- | ---------------- |
+| 1.2.x           | 54       | 0.81.x       | 19.x  | Supported        |
+| 1.1.x           | 51       | 0.74.x       | 18.x  | Supported        |
+| 1.0.x           | 49–50    | 0.71–0.73    | 18.x  | Interop layer    |
+
+### Supported Platforms
+
+| Platform | Map Provider          |
+| -------- | --------------------- |
+| iOS      | Apple Maps            |
+| Android  | Google Maps           |
+| Web      | Google Maps (JS API)  |
+
 ## Preview
 
 ![Overview](https://raw.githubusercontent.com/siposdani87/expo-maps-polygon-editor/master/images/expo-maps-polygon-editor.png)

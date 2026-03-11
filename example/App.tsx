@@ -5,7 +5,7 @@ import {
     PolygonEditorRef,
 } from '@siposdani87/expo-maps-polygon-editor';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, Button, StyleSheet, View } from 'react-native';
 import MapView, { MapPressEvent } from 'react-native-maps';
 import { area0, area1 } from './areas';
@@ -28,21 +28,26 @@ const polygon1: MapPolygonExtendedProps = {
     fillColor: fillColor1,
 };
 
-const [strokeColor, fillColor] = getRandomPolygonColors();
-const newPolygon: MapPolygonExtendedProps = {
-    key: 'NEW',
-    coordinates: [],
-    strokeWidth: 2,
-    strokeColor,
-    fillColor,
+const createNewPolygonTemplate = (): MapPolygonExtendedProps => {
+    const [strokeColor, fillColor] = getRandomPolygonColors();
+    return {
+        key: 'NEW',
+        coordinates: [],
+        strokeWidth: 2,
+        strokeColor,
+        fillColor,
+    };
 };
 
 export default function App() {
     const [polygons, setPolygons] = useState<MapPolygonExtendedProps[]>([]);
+    const [newPolygon, setNewPolygon] = useState<MapPolygonExtendedProps>(
+        createNewPolygonTemplate,
+    );
     const mapRef = useRef<MapView>(null);
     const polygonEditorRef = useRef<PolygonEditorRef>(null);
 
-    const fitToCoordinates = (): void => {
+    const fitToCoordinates = useCallback((): void => {
         const coordinates = polygons
             .map((polygon) => polygon.coordinates)
             .flat();
@@ -50,7 +55,7 @@ export default function App() {
             edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
             animated: true,
         });
-    };
+    }, [polygons]);
 
     const clickOnMap = ({ nativeEvent: { coordinate } }: MapPressEvent): void => {
         polygonEditorRef.current?.setCoordinate(coordinate);
@@ -72,9 +77,7 @@ export default function App() {
     };
 
     const createNewPolygon = (): void => {
-        const [strokeColor, fillColor] = getRandomPolygonColors();
-        newPolygon.strokeColor = strokeColor;
-        newPolygon.fillColor = fillColor;
+        setNewPolygon(createNewPolygonTemplate());
         polygonEditorRef.current?.startPolygon();
     };
 
@@ -140,16 +143,16 @@ export default function App() {
     };
 
     useEffect(() => {
-        selectPolygonByIndex(0);
+        polygonEditorRef.current?.selectPolygonByIndex(0);
 
         setTimeout(() => {
-            selectPolygonByKey('key_1');
+            polygonEditorRef.current?.selectPolygonByKey('key_1');
         }, 500);
     }, []);
 
     useEffect(() => {
         fitToCoordinates();
-    }, [polygons]);
+    }, [fitToCoordinates]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -164,6 +167,12 @@ export default function App() {
                 ref={mapRef}
                 onPress={clickOnMap}
                 style={styles.mapContainer}
+                initialRegion={{
+                    latitude: 47.64,
+                    longitude: 17.53,
+                    latitudeDelta: 0.15,
+                    longitudeDelta: 0.15,
+                }}
             >
                 <PolygonEditor
                     ref={polygonEditorRef}
@@ -176,7 +185,7 @@ export default function App() {
                     onPolygonUnselect={onPolygonUnselect}
                 />
             </MapView>
-            <View style={styles.actionsContaiener}>
+            <View style={styles.actionsContainer}>
                 <Button onPress={showNewPolygonInfo} title="New polygon" />
                 <Button
                     onPress={() => selectPolygonByKey('key_0')}
@@ -203,7 +212,7 @@ const styles = StyleSheet.create({
     mapContainer: {
         ...StyleSheet.absoluteFillObject,
     },
-    actionsContaiener: {
+    actionsContainer: {
         position: 'absolute',
         bottom: 50,
         left: 10,

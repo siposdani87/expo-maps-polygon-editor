@@ -9,12 +9,7 @@ import React, {
 } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-// Extend globalThis to include Google Maps types
-declare global {
-    interface Window {
-        google: any;
-    }
-}
+import './types';
 
 // Get API key from environment variable
 const getGoogleMapsApiKey = (): string => {
@@ -56,7 +51,7 @@ const loadGoogleMapsScript = (): Promise<void> => {
 
 // Create a Context to share the map instance
 interface MapContextValue {
-    map: any | null;
+    map: google.maps.Map | null;
 }
 
 export const MapContext = createContext<MapContextValue>({ map: null });
@@ -78,7 +73,7 @@ export interface MapPressEvent {
 }
 
 interface MapViewProps {
-    style?: any;
+    style?: object;
     initialRegion?: Region;
     onPress?: (event: MapPressEvent) => void;
     children?: React.ReactNode;
@@ -86,13 +81,16 @@ interface MapViewProps {
 
 const MapView = forwardRef((props: MapViewProps, ref) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
-    const mapRef = useRef<any>(null);
+    const mapRef = useRef<google.maps.Map | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useImperativeHandle(ref, () => ({
         fitToCoordinates: (
             coordinates: LatLng[],
-            options?: { edgePadding?: any; animated?: boolean },
+            options?: {
+                edgePadding?: google.maps.Padding;
+                animated?: boolean;
+            },
         ) => {
             if (!mapRef.current || coordinates.length === 0) {
                 return;
@@ -127,7 +125,7 @@ const MapView = forwardRef((props: MapViewProps, ref) => {
                         },
                     );
 
-                    map.addListener('click', (e: any) => {
+                    map.addListener('click', (e: google.maps.MapMouseEvent) => {
                         if (props.onPress && e.latLng) {
                             props.onPress({
                                 nativeEvent: {
@@ -160,7 +158,7 @@ const MapView = forwardRef((props: MapViewProps, ref) => {
         <View style={[styles.container, props.style]}>
             <div
                 ref={mapContainerRef}
-                style={{ width: '100%', height: '100%' }}
+                style={styles.mapContainer as React.CSSProperties}
             />
             <MapContext.Provider value={contextValue}>
                 {isLoaded && props.children}
@@ -173,6 +171,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    mapContainer: {
+        width: '100%',
+        height: '100%',
+    },
 });
+
+MapView.displayName = 'MapView';
 
 export default MapView;

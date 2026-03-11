@@ -11,16 +11,11 @@ module.exports = {
       resizeMode: "contain",
       backgroundColor: "#ffffff"
     },
-    updates: {
-      fallbackToCacheTimeout: 0
-    },
-    assetBundlePatterns: [
-      "**/*"
-    ],
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.siposdani87.expomapspolygoneditor"
     },
+    newArchEnabled: false,
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
@@ -36,18 +31,7 @@ module.exports = {
       }
     },
     plugins: [
-      "expo-font",
-      [
-        "react-native-maps",
-        {
-          ios: {
-            mapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
-          },
-          android: {
-            mapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
-          }
-        }
-      ]
+      "expo-font"
     ]
   }
 };

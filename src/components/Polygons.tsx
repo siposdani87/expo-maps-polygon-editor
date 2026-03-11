@@ -2,7 +2,9 @@ import React from 'react';
 import { Polygon } from 'react-native-maps';
 import { MapPolygonExtendedProps } from '../lib/types';
 
-export type PolygonPressEvent = any;
+export type PolygonPressEvent = {
+    stopPropagation: () => void;
+};
 
 export const Polygons = (props: {
     polygons: MapPolygonExtendedProps[];

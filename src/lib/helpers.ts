@@ -29,12 +29,3 @@ export const getMiddleCoordinates = (coordinates: LatLng[]): LatLng[] => {
     }
     return middleCoordinates;
 };
-
-let timeout: any = null;
-export const debounce = (func: () => void, wait?: number): void => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        timeout = null;
-        func();
-    }, wait);
-};

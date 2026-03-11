@@ -1,12 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import { MapContext, LatLng } from './MapView';
-
-// Extend globalThis to include Google Maps types
-declare global {
-    interface Window {
-        google: any;
-    }
-}
+import './types';
 
 export interface MapPolygonProps {
     coordinates: LatLng[];
@@ -14,13 +8,16 @@ export interface MapPolygonProps {
     strokeWidth?: number;
     fillColor?: string;
     tappable?: boolean;
-    onPress?: (event?: any) => void;
+    onPress?: (event?: {
+        stopPropagation: () => void;
+        nativeEvent: google.maps.PolyMouseEvent;
+    }) => void;
 }
 
 export const Polygon = (props: MapPolygonProps) => {
     const { map } = useContext(MapContext);
-    const polygonRef = useRef<any>(null);
-    const listenerRef = useRef<any>(null);
+    const polygonRef = useRef<google.maps.Polygon | null>(null);
+    const listenerRef = useRef<google.maps.MapsEventListener | null>(null);
 
     // Create polygon when map is available
     useEffect(() => {
@@ -70,7 +67,7 @@ export const Polygon = (props: MapPolygonProps) => {
         if (props.onPress) {
             listenerRef.current = polygonRef.current.addListener(
                 'click',
-                (e: any) => {
+                (e: google.maps.PolyMouseEvent) => {
                     // Create an event object that matches what PolygonEditor expects
                     const syntheticEvent = {
                         stopPropagation: () => {
@@ -80,7 +77,7 @@ export const Polygon = (props: MapPolygonProps) => {
                         },
                         nativeEvent: e,
                     };
-                    props.onPress?.(syntheticEvent as any);
+                    props.onPress?.(syntheticEvent);
                 },
             );
         }
