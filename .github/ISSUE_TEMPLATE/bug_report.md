@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 
 - OS: [e.g. iOS 17, Android 14]
 - Expo SDK: [e.g. 54]
-- Package version: [e.g. 1.2.0]
+- Package version: [e.g. 1.2.1]
 - react-native-maps version: [e.g. 1.26.20]
 
 **Additional context**

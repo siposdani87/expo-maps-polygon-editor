@@ -233,4 +233,4 @@
 | 17 | ~~`typesVersions` in package.json~~ | Low | `package.json` |
 | 18 | ~~Community docs (CODEOWNERS, CODE_OF_CONDUCT, SECURITY)~~ | Low | `.github/CODEOWNERS`, root docs |
 | 19 | ~~Automated changelog (standard-version)~~ | Low | `package.json`, `CHANGELOG.md` |
-| 20 | Unit tests for utilities and hooks | Medium | `src/lib/__tests__/`, `src/hooks/__tests__/` |
+| 20 | ~~Unit tests for utilities and hooks~~ | Medium | `src/lib/__tests__/`, `src/hooks/__tests__/` |
