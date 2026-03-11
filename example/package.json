@@ -5,7 +5,7 @@
   "author": "Dániel Sipos <siposdani87@gmail.com> (https://siposdani87.com)",
   "license": "MIT",
   "homepage": "https://siposdani87.com",
-  "private": false,
+  "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "keywords": [
     "expo-maps-polygon-editor",
@@ -22,7 +22,6 @@
     "prebuild:clean": "npx expo prebuild --clean",
     "run:ios": "npx expo run:ios",
     "run:android": "npx expo run:android",
-    "eject": "npx expo eject",
     "tsc-test": "npx tsc --project . --noEmit",
     "lint": "npx eslint --ext ts ."
   },
@@ -39,7 +38,7 @@
     "react": "19.1.0",
     "react-dom": "^19.1.0",
     "react-native": "0.81.5",
-    "react-native-maps": "^1.26.20",
+    "react-native-maps": "^1.20.1",
     "react-native-web": "^0.21.2"
   },
   "devDependencies": {
