@@ -7,6 +7,11 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 import { MapContext, LatLng } from './MapView';
+import './types';
+
+interface CustomOverlay extends google.maps.OverlayView {
+    updatePosition(newPosition: google.maps.LatLng): void;
+}
 
 export interface MarkerDragEvent {
     nativeEvent: {
@@ -21,6 +26,7 @@ export interface MarkerDragStartEndEvent {
 }
 
 export interface MarkerPressEvent {
+    stopPropagation: () => void;
     nativeEvent: {
         coordinate: LatLng;
         id: string;
@@ -40,10 +46,10 @@ interface MarkerProps {
     children?: React.ReactNode;
 }
 
-export const Marker = forwardRef((props: MarkerProps, _ref) => {
+export const Marker = forwardRef(function Marker(props: MarkerProps, _ref) {
     const { map } = useContext(MapContext);
-    const markerRef = useRef<any>(null);
-    const overlayRef = useRef<any>(null);
+    const markerRef = useRef<google.maps.Marker | null>(null);
+    const overlayRef = useRef<CustomOverlay | null>(null);
     const isDraggingRef = useRef<boolean>(false);
     const [markerElement, setMarkerElement] = useState<HTMLDivElement | null>(
         null,
@@ -80,15 +86,21 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
             setMarkerElement(div);
 
             class CustomMarker extends window.google.maps.OverlayView {
-                private position: any;
+                private position: google.maps.LatLng;
                 private div: HTMLDivElement;
-                private mouseMoveListener: any = null;
-                private mouseUpListener: any = null;
-                private clickListener: any = null;
-                private mouseDownListener: any = null;
+                private mouseMoveListener: ((e: MouseEvent) => void) | null =
+                    null;
+                private mouseUpListener: ((e: MouseEvent) => void) | null =
+                    null;
+                private clickListener: ((e: MouseEvent) => void) | null = null;
+                private mouseDownListener: ((e: MouseEvent) => void) | null =
+                    null;
                 private isCurrentlyDragging: boolean = false;
 
-                constructor(position: any, divElement: HTMLDivElement) {
+                constructor(
+                    position: google.maps.LatLng,
+                    divElement: HTMLDivElement,
+                ) {
                     super();
                     this.position = position;
                     this.div = divElement;
@@ -211,7 +223,9 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
                                             id: props.identifier || '',
                                         },
                                     };
-                                    onPressRef.current(syntheticEvent as any);
+                                    onPressRef.current(
+                                        syntheticEvent as MarkerPressEvent,
+                                    );
                                 }
                             }
                             isDragging = false;
@@ -227,14 +241,14 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
                         // Add click listener for non-draggable markers
                         this.clickListener = (e: MouseEvent) => {
                             e.stopPropagation();
-                            const syntheticEvent = {
+                            const syntheticEvent: MarkerPressEvent = {
                                 stopPropagation: () => {},
                                 nativeEvent: {
                                     coordinate: props.coordinate,
                                     id: props.identifier || '',
                                 },
                             };
-                            onPressRef.current?.(syntheticEvent as any);
+                            onPressRef.current?.(syntheticEvent);
                         };
                         this.div.addEventListener('click', this.clickListener);
                     }
@@ -287,7 +301,7 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
                     }
                 }
 
-                updatePosition(newPosition: any) {
+                updatePosition(newPosition: google.maps.LatLng) {
                     // Don't update position if this marker is currently being dragged
                     if (this.isCurrentlyDragging) {
                         return;
@@ -305,7 +319,7 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
                 div,
             );
             overlay.setMap(map);
-            overlayRef.current = overlay as any;
+            overlayRef.current = overlay as CustomOverlay;
 
             return () => {
                 overlay.setMap(null);
@@ -325,8 +339,8 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
 
             // Add event listeners
             if (props.onPress) {
-                marker.addListener('click', (e: any) => {
-                    const syntheticEvent = {
+                marker.addListener('click', (e: google.maps.MapMouseEvent) => {
+                    const syntheticEvent: MarkerPressEvent = {
                         stopPropagation: () => {
                             if (e.stop) {
                                 e.stop();
@@ -337,7 +351,7 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
                             id: props.identifier || '',
                         },
                     };
-                    props.onPress?.(syntheticEvent as any);
+                    props.onPress?.(syntheticEvent);
                 });
             }
 
@@ -403,15 +417,12 @@ export const Marker = forwardRef((props: MarkerProps, _ref) => {
         }
 
         if (overlayRef.current) {
-            const overlay = overlayRef.current as any;
-            if (overlay.updatePosition) {
-                overlay.updatePosition(
-                    new window.google.maps.LatLng(
-                        props.coordinate.latitude,
-                        props.coordinate.longitude,
-                    ),
-                );
-            }
+            overlayRef.current.updatePosition(
+                new window.google.maps.LatLng(
+                    props.coordinate.latitude,
+                    props.coordinate.longitude,
+                ),
+            );
         } else if (markerRef.current) {
             markerRef.current.setPosition({
                 lat: props.coordinate.latitude,
