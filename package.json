@@ -52,7 +52,7 @@
     "clean": "rm -rf dist",
     "lint": "npx eslint . --ext .ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
-    "test": "echo \"No tests specified\"",
+    "test": "jest",
     "format": "npx prettier --write 'src/**/*.ts*'",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
@@ -83,6 +83,7 @@
     "@commitlint/cli": "^20.4.3",
     "@commitlint/config-conventional": "^20.4.3",
     "@types/google.maps": "^3.58.1",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",
     "@types/react-dom": "~19.1.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -93,10 +94,12 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
     "husky": "^9.1.7",
+    "jest": "^30.3.0",
     "lint-staged": "^16.3.3",
     "prettier": "^3.4.2",
     "react-native-maps": "^1.20.1",
     "standard-version": "^9.5.0",
+    "ts-jest": "^29.4.6",
     "typescript": "~5.9.3"
   }
 }

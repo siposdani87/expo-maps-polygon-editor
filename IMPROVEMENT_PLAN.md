@@ -196,9 +196,9 @@
 
 ### 12.1 Add unit tests for utility functions
 
-- [ ] Test `src/lib/geospatials.ts` (point-in-polygon, midpoint calculations).
-- [ ] Test `src/lib/helpers.ts` (addCoordinateToPolygon, getMiddleCoordinates).
-- [ ] Test `src/lib/colors.ts` (getRandomPolygonColors).
+- [x] Test `src/lib/geospatials.ts` (point-in-polygon, midpoint calculations).
+- [x] Test `src/lib/helpers.ts` (addCoordinateToPolygon, getMiddleCoordinates).
+- [x] Test `src/lib/colors.ts` (getRandomPolygonColors).
 - **Setup:** Add `jest` + `@types/jest`, configure in `package.json`.
 
 ### 12.2 Add hook tests
@@ -208,7 +208,7 @@
 
 ### 12.3 Add CI step for test execution
 
-- [ ] Add `npm test` step to CI workflow after lint and build.
+- [x] Add `npm test` step to CI workflow after lint and build.
 
 ## Execution Order
 
@@ -228,9 +228,9 @@
 | 12 | ~~Web platform cleanup (types, narrow `any`)~~ | Medium | `src/web/*.tsx` |
 | 13 | ~~Add SDK compatibility table + `CONTRIBUTING.md`~~ | Low | `README.md`, `CONTRIBUTING.md` |
 | 14 | ~~Stabilize callbacks with `useCallback` (2.2)~~ | Medium | `src/PolygonEditor.tsx` |
-| 15 | Pre-commit hooks (husky + lint-staged) | Low | `package.json`, `.husky/` |
-| 16 | Commitlint (conventional commits) | Low | `commitlint.config.js`, `.husky/commit-msg` |
-| 17 | `typesVersions` in package.json | Low | `package.json` |
-| 18 | Community docs (CODEOWNERS, CODE_OF_CONDUCT, SECURITY) | Low | `.github/CODEOWNERS`, root docs |
-| 19 | Automated changelog (standard-version) | Low | `package.json`, `CHANGELOG.md` |
+| 15 | ~~Pre-commit hooks (husky + lint-staged)~~ | Low | `package.json`, `.husky/` |
+| 16 | ~~Commitlint (conventional commits)~~ | Low | `commitlint.config.js`, `.husky/commit-msg` |
+| 17 | ~~`typesVersions` in package.json~~ | Low | `package.json` |
+| 18 | ~~Community docs (CODEOWNERS, CODE_OF_CONDUCT, SECURITY)~~ | Low | `.github/CODEOWNERS`, root docs |
+| 19 | ~~Automated changelog (standard-version)~~ | Low | `package.json`, `CHANGELOG.md` |
 | 20 | Unit tests for utilities and hooks | Medium | `src/lib/__tests__/`, `src/hooks/__tests__/` |
