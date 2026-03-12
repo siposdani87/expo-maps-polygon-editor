@@ -11,7 +11,6 @@ config.watchFolders = [workspaceRoot];
 
 // Block parent node_modules from being resolved to prevent duplicates
 config.resolver.blockList = [
-  // Block all modules from parent node_modules to prevent duplicates
   new RegExp(`^${workspaceRoot.replace(/[/\\]/g, '[/\\\\]')}/node_modules/react-native-maps/.*`),
   new RegExp(`^${workspaceRoot.replace(/[/\\]/g, '[/\\\\]')}/node_modules/react/.*`),
   new RegExp(`^${workspaceRoot.replace(/[/\\]/g, '[/\\\\]')}/node_modules/react-native/.*`),
@@ -48,43 +47,6 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
     return {
       type: 'sourceFile',
       filePath: path.resolve(workspaceRoot, 'src', 'index.ts'),
-    };
-  }
-
-  // Force React modules to resolve from example/node_modules for ALL platforms
-  // This prevents duplicate React instance errors
-  if (moduleName === 'react') {
-    return {
-      type: 'sourceFile',
-      filePath: path.resolve(projectRoot, 'node_modules', 'react', 'index.js'),
-    };
-  }
-
-  if (moduleName === 'react/jsx-runtime') {
-    return {
-      type: 'sourceFile',
-      filePath: path.resolve(projectRoot, 'node_modules', 'react', 'jsx-runtime.js'),
-    };
-  }
-
-  if (moduleName === 'react/jsx-dev-runtime') {
-    return {
-      type: 'sourceFile',
-      filePath: path.resolve(projectRoot, 'node_modules', 'react', 'jsx-dev-runtime.js'),
-    };
-  }
-
-  if (moduleName === 'react-dom') {
-    return {
-      type: 'sourceFile',
-      filePath: path.resolve(projectRoot, 'node_modules', 'react-dom', 'index.js'),
-    };
-  }
-
-  if (moduleName === 'react-native') {
-    return {
-      type: 'sourceFile',
-      filePath: path.resolve(projectRoot, 'node_modules', 'react-native', 'index.js'),
     };
   }
 

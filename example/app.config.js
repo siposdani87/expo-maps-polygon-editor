@@ -15,7 +15,6 @@ module.exports = {
       supportsTablet: true,
       bundleIdentifier: "com.siposdani87.expomapspolygoneditor"
     },
-    newArchEnabled: false,
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
