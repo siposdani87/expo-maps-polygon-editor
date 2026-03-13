@@ -6,7 +6,7 @@ Thank you for your interest in contributing to expo-maps-polygon-editor!
 
 ### Prerequisites
 
-- Node.js >= 18 (see `.nvmrc`)
+- Node.js >= 20 (see `.nvmrc`)
 - npm
 
 ### Getting Started

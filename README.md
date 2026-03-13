@@ -99,6 +99,10 @@ const styles = StyleSheet.create({
 | Android  | Google Maps           |
 | Web      | Google Maps (JS API)  |
 
+### Known Limitations
+
+- **Android (v1.3.x):** Dragging custom marker vertices does not work due to an upstream `react-native-maps` issue with New Architecture ([#5877](https://github.com/react-native-maps/react-native-maps/issues/5877)). Marker positioning is correct. This will be resolved once the upstream fix is merged.
+
 ## Preview
 
 ![Overview](https://raw.githubusercontent.com/siposdani87/expo-maps-polygon-editor/master/images/expo-maps-polygon-editor.png)

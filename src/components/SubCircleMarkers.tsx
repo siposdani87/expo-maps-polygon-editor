@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         borderWidth: 1,
         borderStyle: 'dotted',
-        padding: 8,
+        width: 16,
+        height: 16,
     },
 });

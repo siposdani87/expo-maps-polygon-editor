@@ -20,7 +20,12 @@ module.exports = {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF"
       },
-      package: "com.siposdani87.expomapspolygoneditor"
+      package: "com.siposdani87.expomapspolygoneditor",
+      config: {
+        googleMaps: {
+          apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
+        }
+      }
     },
     web: {
       favicon: "./assets/favicon.png",
