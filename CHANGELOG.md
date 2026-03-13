@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.3.0 - 2026-03-12
+
+* Upgrade Expo SDK to version 55
+* Upgrade React Native to version 0.83.2
+* Upgrade React to version 19.2.0
+* Upgrade react-native-maps to version 1.26.20
+* New Architecture is now required (mandatory in SDK 55)
+* Update minimum Node.js version to 20
+* Update peer dependencies (react >=19.0.0, react-native >=0.83.0, react-native-maps >=1.20.0)
+* Update CI/CD Node.js version to 22
+
 ## 1.2.0 - 2024-12-04
 
 * Upgrade Expo SDK to version 54

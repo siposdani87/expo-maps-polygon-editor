@@ -1,6 +1,6 @@
 {
   "name": "@siposdani87/expo-maps-polygon-editor",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "This multi polygon editor written in TypeScript for the React Native Maps component. This component allows you to select, create, or modify areas on Apple Maps and Google Maps.",
   "author": "Dániel Sipos",
   "license": "MIT",
@@ -24,7 +24,7 @@
   },
   "sideEffects": false,
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "keywords": [
     "expo-maps-polygon-editor",
@@ -54,9 +54,7 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
     "format": "npx prettier --write 'src/**/*.ts*'",
-    "release": "standard-version",
-    "release:minor": "standard-version --release-as minor",
-    "release:major": "standard-version --release-as major",
+    "changelog": "npx conventional-changelog -p conventionalcommits -i CHANGELOG.md -o CHANGELOG.md -r 1",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -69,10 +67,10 @@
     "@turf/boolean-point-in-polygon": ">=6.5.0",
     "@turf/helpers": ">=6.5.0",
     "@turf/midpoint": ">=6.5.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "react-native": ">=0.72.0",
-    "react-native-maps": ">=1.14.0"
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0",
+    "react-native": ">=0.83.0",
+    "react-native-maps": ">=1.20.0"
   },
   "dependencies": {
     "@turf/boolean-point-in-polygon": ">=6.5.0",
@@ -85,10 +83,11 @@
     "@testing-library/react": "^16.3.2",
     "@types/google.maps": "^3.58.1",
     "@types/jest": "^30.0.0",
-    "@types/react": "~19.1.0",
-    "@types/react-dom": "~19.1.0",
+    "@types/react": "~19.2.0",
+    "@types/react-dom": "~19.2.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "conventional-changelog": "^7.2.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-prettier": "^5.5.4",
@@ -102,7 +101,6 @@
     "react-dom": "^19.2.4",
     "react-native-maps": "^1.20.1",
     "react-test-renderer": "^19.2.4",
-    "standard-version": "^9.5.0",
     "ts-jest": "^29.4.6",
     "typescript": "~5.9.3"
   }

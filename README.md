@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
 
 | Package Version | Expo SDK | React Native | React | New Architecture |
 | --------------- | -------- | ------------ | ----- | ---------------- |
+| 1.3.x           | 55       | 0.83.x       | 19.x  | Required         |
 | 1.2.x           | 54       | 0.81.x       | 19.x  | Supported        |
 | 1.1.x           | 51       | 0.74.x       | 18.x  | Supported        |
 | 1.0.x           | 49–50    | 0.71–0.73    | 18.x  | Interop layer    |
@@ -97,6 +98,10 @@ const styles = StyleSheet.create({
 | iOS      | Apple Maps            |
 | Android  | Google Maps           |
 | Web      | Google Maps (JS API)  |
+
+### Known Limitations
+
+- **Android (v1.3.x):** Dragging custom marker vertices does not work due to an upstream `react-native-maps` issue with New Architecture ([#5877](https://github.com/react-native-maps/react-native-maps/issues/5877)). Marker positioning is correct. This will be resolved once the upstream fix is merged.
 
 ## Preview
 

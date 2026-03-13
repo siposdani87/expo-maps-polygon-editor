@@ -2,13 +2,15 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 export const Circle = (props: { size: number; color?: string }) => {
+    const diameter = props.size * 2;
     return (
         <View
             style={[
                 styles.circleMarker,
                 {
                     borderColor: props.color,
-                    padding: props.size,
+                    width: diameter,
+                    height: diameter,
                 },
             ]}
         />
