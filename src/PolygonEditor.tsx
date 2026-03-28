@@ -53,6 +53,17 @@ export const PolygonEditor = forwardRef(
         },
         ref: React.Ref<PolygonEditorRef>,
     ) => {
+        const {
+            polygons,
+            newPolygon,
+            onPolygonCreate,
+            onPolygonChange,
+            onPolygonRemove,
+            onPolygonSelect,
+            onPolygonUnselect,
+            disabled: disabledProp,
+        } = props;
+
         const [selectedPolygon, setSelectedPolygon] =
             useState<MapPolygonExtendedProps | null>(null);
         const [selectedPolyline, setSelectedPolyline] =
@@ -60,6 +71,12 @@ export const PolygonEditor = forwardRef(
         const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
             null,
         );
+        const selectedPolygonRef = useRef<MapPolygonExtendedProps | null>(null);
+        const selectedPolylineRef = useRef<MapPolygonExtendedProps | null>(
+            null,
+        );
+        selectedPolygonRef.current = selectedPolygon;
+        selectedPolylineRef.current = selectedPolyline;
 
         const {
             selectedMarkerIndex,
@@ -67,11 +84,9 @@ export const PolygonEditor = forwardRef(
             isSelectedMarker,
         } = useSelectedMarker();
 
-        const polygons = props.polygons;
-
         const disabled = useDisabled(() => {
             resetAll();
-        }, props.disabled);
+        }, disabledProp);
 
         const { getIndexByKey, getPolygonByKey } = usePolygonFinder(polygons);
 
@@ -83,9 +98,9 @@ export const PolygonEditor = forwardRef(
         ] = useSelectedKey(polygons);
 
         const [startNewPolygon, resetNewPolygon, buildNewPolygon] =
-            useNewPolygon(props.newPolygon, (polygon) => {
+            useNewPolygon(newPolygon, (polygon) => {
                 setSelectedKey(polygon.key);
-                props.onPolygonCreate?.(polygon);
+                onPolygonCreate?.(polygon);
             });
 
         const init = (): PolygonEditorRef => {
@@ -118,7 +133,7 @@ export const PolygonEditor = forwardRef(
             if (selectedKey && selectedPolygon) {
                 const index = getIndexByKey(selectedKey);
                 if (index != null) {
-                    props.onPolygonUnselect?.(index, selectedPolygon);
+                    onPolygonUnselect?.(index, selectedPolygon);
                 }
             }
         };
@@ -138,49 +153,58 @@ export const PolygonEditor = forwardRef(
             }
         };
 
-        const addCoordinateToSelectedPolyline = (
-            coordinate: LatLng,
-            coordIndex?: number,
-        ): void => {
-            if (!selectedPolygon) {
-                return;
-            }
-            const changedPolygon = addCoordinateToPolygon(
-                selectedPolygon,
-                coordinate,
-                coordIndex,
-            );
-            setSelectedPolyline(changedPolygon);
-        };
-
-        const removeCoordinateFromSelectedPolygon = (
-            coordIndex: number,
-        ): void => {
-            if (!selectedPolygon) {
-                return;
-            }
-            const index = getIndexByKey(selectedPolygon.key);
-            const coordinates = [...selectedPolygon.coordinates];
-            coordinates.splice(coordIndex, 1);
-            setSelectedMarkerIndex(null);
-            if (coordinates.length < 3) {
-                setSelectedKey(null);
-                setSelectedPolyline(null);
-                if (index != null) {
-                    props.onPolygonRemove?.(index);
+        const addCoordinateToSelectedPolyline = useCallback(
+            (coordinate: LatLng, coordIndex?: number): void => {
+                const polygon = selectedPolygonRef.current;
+                if (!polygon) {
+                    return;
                 }
-            } else {
-                const changedPolygon = {
-                    ...selectedPolygon,
-                    coordinates,
-                };
-                setSelectedPolygon(changedPolygon);
+                const changedPolygon = addCoordinateToPolygon(
+                    polygon,
+                    coordinate,
+                    coordIndex,
+                );
                 setSelectedPolyline(changedPolygon);
-                if (index != null) {
-                    props.onPolygonChange?.(index, changedPolygon);
+            },
+            [],
+        );
+
+        const removeCoordinateFromSelectedPolygon = useCallback(
+            (coordIndex: number): void => {
+                const polygon = selectedPolygonRef.current;
+                if (!polygon) {
+                    return;
                 }
-            }
-        };
+                const index = getIndexByKey(polygon.key);
+                const coordinates = [...polygon.coordinates];
+                coordinates.splice(coordIndex, 1);
+                setSelectedMarkerIndex(null);
+                if (coordinates.length < 3) {
+                    setSelectedKey(null);
+                    setSelectedPolyline(null);
+                    if (index != null) {
+                        onPolygonRemove?.(index);
+                    }
+                } else {
+                    const changedPolygon = {
+                        ...polygon,
+                        coordinates,
+                    };
+                    setSelectedPolygon(changedPolygon);
+                    setSelectedPolyline(changedPolygon);
+                    if (index != null) {
+                        onPolygonChange?.(index, changedPolygon);
+                    }
+                }
+            },
+            [
+                getIndexByKey,
+                setSelectedMarkerIndex,
+                setSelectedKey,
+                onPolygonRemove,
+                onPolygonChange,
+            ],
+        );
 
         const onPolygonClick = (
             index: number,
@@ -193,65 +217,73 @@ export const PolygonEditor = forwardRef(
                 }
                 if (selectedKey === polygon.key) {
                     setSelectedKey(null);
-                    props.onPolygonUnselect?.(index, polygon);
+                    onPolygonUnselect?.(index, polygon);
                 } else {
                     setSelectedKey(polygon.key);
-                    props.onPolygonSelect?.(index, polygon);
+                    onPolygonSelect?.(index, polygon);
                 }
                 setSelectedMarkerIndex(null);
             };
         };
 
-        const changeSelectedPolylineCoordinate = (
-            coordIndex: number,
-            coordinate: LatLng,
-        ): void => {
-            if (!selectedPolyline) {
-                return;
-            }
-            const coordinatesClone = [...selectedPolyline.coordinates];
-            coordinatesClone[coordIndex] = coordinate;
-            const changedPolygon = {
-                ...selectedPolyline,
-                coordinates: coordinatesClone,
-            };
-            setSelectedPolyline(changedPolygon);
-        };
+        const changeSelectedPolylineCoordinate = useCallback(
+            (coordIndex: number, coordinate: LatLng): void => {
+                setSelectedPolyline((prev) => {
+                    if (!prev) {
+                        return prev;
+                    }
+                    const coordinatesClone = [...prev.coordinates];
+                    coordinatesClone[coordIndex] = coordinate;
+                    return {
+                        ...prev,
+                        coordinates: coordinatesClone,
+                    };
+                });
+            },
+            [],
+        );
 
-        const synchronizePolylineToPolygon = (): void => {
-            if (!selectedPolyline) {
+        const synchronizePolylineToPolygon = useCallback((): void => {
+            const polyline = selectedPolylineRef.current;
+            if (!polyline) {
                 return;
             }
-            setSelectedPolygon(selectedPolyline);
+            setSelectedPolygon(polyline);
             setSelectedPolyline(null);
-            const index = getIndexByKey(selectedPolyline.key);
+            const index = getIndexByKey(polyline.key);
             if (index != null) {
-                props.onPolygonChange?.(index, selectedPolyline);
+                onPolygonChange?.(index, polyline);
             }
-        };
+        }, [getIndexByKey, onPolygonChange]);
 
-        const onSubMarkerDragStart = (coordIndex: number) => {
-            return ({
-                nativeEvent: { coordinate },
-            }: MarkerDragStartEndEvent) => {
-                addCoordinateToSelectedPolyline(coordinate, coordIndex);
+        const onSubMarkerDragStart = useCallback(
+            (coordIndex: number) => {
+                return ({
+                    nativeEvent: { coordinate },
+                }: MarkerDragStartEndEvent) => {
+                    addCoordinateToSelectedPolyline(coordinate, coordIndex);
+                };
+            },
+            [addCoordinateToSelectedPolyline],
+        );
+
+        const onMarkerDragStart = useCallback(() => {
+            return (_e: MarkerDragStartEndEvent) => {
+                setSelectedPolyline(selectedPolygonRef.current);
             };
-        };
+        }, []);
 
-        const onMarkerDragStart = () => {
-            return () => {
-                setSelectedPolyline(selectedPolygon);
-            };
-        };
+        const onMarkerDrag = useCallback(
+            (coordIndex: number) => {
+                return ({ nativeEvent: { coordinate } }: MarkerDragEvent) => {
+                    changeSelectedPolylineCoordinate(coordIndex, coordinate);
+                };
+            },
+            [changeSelectedPolylineCoordinate],
+        );
 
-        const onMarkerDrag = (coordIndex: number) => {
-            return ({ nativeEvent: { coordinate } }: MarkerDragEvent) => {
-                changeSelectedPolylineCoordinate(coordIndex, coordinate);
-            };
-        };
-
-        const onMarkerDragEnd = () => {
-            return () => {
+        const onMarkerDragEnd = useCallback(() => {
+            return (_e: MarkerDragStartEndEvent) => {
                 if (debounceTimeoutRef.current) {
                     clearTimeout(debounceTimeoutRef.current);
                 }
@@ -260,18 +292,25 @@ export const PolygonEditor = forwardRef(
                     synchronizePolylineToPolygon();
                 }, 25);
             };
-        };
+        }, [synchronizePolylineToPolygon]);
 
-        const onMarkerPress = (coordIndex: number) => {
-            return (e: MarkerPressEvent) => {
-                e.stopPropagation();
-                if (isSelectedMarker(coordIndex)) {
-                    removeCoordinateFromSelectedPolygon(coordIndex);
-                } else {
-                    setSelectedMarkerIndex(coordIndex);
-                }
-            };
-        };
+        const onMarkerPress = useCallback(
+            (coordIndex: number) => {
+                return (e: MarkerPressEvent) => {
+                    e.stopPropagation();
+                    if (isSelectedMarker(coordIndex)) {
+                        removeCoordinateFromSelectedPolygon(coordIndex);
+                    } else {
+                        setSelectedMarkerIndex(coordIndex);
+                    }
+                };
+            },
+            [
+                isSelectedMarker,
+                removeCoordinateFromSelectedPolygon,
+                setSelectedMarkerIndex,
+            ],
+        );
 
         useImperativeHandle(ref, init);
 

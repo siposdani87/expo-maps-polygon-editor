@@ -8,40 +8,48 @@ import {
 import { MapPolygonExtendedProps } from '../lib/types';
 import { getMiddleCoordinates } from '../lib/helpers';
 
-export const SubCircleMarkers = (props: {
-    polygon: MapPolygonExtendedProps;
-    onDragStart: (index: number) => (e: MarkerDragStartEndEvent) => void;
-    onDrag: (index: number) => (e: MarkerDragEvent) => void;
-    onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
-}) => {
-    const middleCoordinates = getMiddleCoordinates(props.polygon.coordinates);
-    return (
-        <>
-            {middleCoordinates.map((coordinate, coordIndex) => (
-                <Marker
-                    key={coordIndex}
-                    identifier={coordIndex.toString()}
-                    coordinate={coordinate}
-                    anchor={{ x: 0.5, y: 0.5 }}
-                    draggable={true}
-                    onDragStart={props.onDragStart(coordIndex)}
-                    onDrag={props.onDrag(coordIndex)}
-                    onDragEnd={props.onDragEnd(coordIndex)}
-                    tracksViewChanges={true}
-                >
-                    <View
-                        style={[
-                            styles.subCircleMarker,
-                            {
-                                borderColor: props.polygon.strokeColor,
-                            },
-                        ]}
-                    />
-                </Marker>
-            ))}
-        </>
-    );
-};
+export const SubCircleMarkers = React.memo(
+    (props: {
+        polygon: MapPolygonExtendedProps;
+        onDragStart: (index: number) => (e: MarkerDragStartEndEvent) => void;
+        onDrag: (index: number) => (e: MarkerDragEvent) => void;
+        onDragEnd: (index: number) => (e: MarkerDragStartEndEvent) => void;
+    }) => {
+        const middleCoordinates = getMiddleCoordinates(
+            props.polygon.coordinates,
+        );
+        return (
+            <>
+                {middleCoordinates.map((coordinate, coordIndex) => (
+                    <Marker
+                        key={coordIndex}
+                        identifier={coordIndex.toString()}
+                        coordinate={coordinate}
+                        anchor={{ x: 0.5, y: 0.5 }}
+                        draggable={true}
+                        onDragStart={props.onDragStart(coordIndex)}
+                        onDrag={props.onDrag(coordIndex)}
+                        onDragEnd={props.onDragEnd(coordIndex)}
+                        tracksViewChanges={false}
+                    >
+                        <View pointerEvents="none">
+                            <View
+                                style={[
+                                    styles.subCircleMarker,
+                                    {
+                                        borderColor: props.polygon.strokeColor,
+                                    },
+                                ]}
+                            />
+                        </View>
+                    </Marker>
+                ))}
+            </>
+        );
+    },
+);
+
+SubCircleMarkers.displayName = 'SubCircleMarkers';
 
 const styles = StyleSheet.create({
     subCircleMarker: {
